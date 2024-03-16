@@ -15,7 +15,7 @@ const Transaction = () => {
                </tr>
             </thead>
             <tbody>
-               <tr>
+               <tr className={Styles.userOption}>
                   <td>
                      <div className={Styles.user}>
                         <Image src="/no-avatar.jpg" alt="user avatar" width={40} height={40} className={Styles.userImage} />
@@ -28,7 +28,7 @@ const Transaction = () => {
                   <td>12th June 2021</td>
                   <td>$32.100</td>
                </tr>
-               <tr>
+               <tr className={Styles.userOption}>
                   <td>
                      <div className={Styles.user}>
                         <Image src="/no-avatar.jpg" alt="user avatar" width={40} height={40} className={Styles.userImage} />
@@ -41,7 +41,7 @@ const Transaction = () => {
                   <td>12th June 2021</td>
                   <td>$32.100</td>
                </tr>
-               <tr>
+               <tr className={Styles.userOption}>
                   <td>
                      <div className={Styles.user}>
                         <Image src="/no-avatar.jpg" alt="user avatar" width={40} height={40} className={Styles.userImage} />
@@ -54,7 +54,7 @@ const Transaction = () => {
                   <td>12th June 2021</td>
                   <td>$32.100</td>
                </tr>
-               <tr>
+               <tr className={Styles.userOption}>
                   <td>
                      <div className={Styles.user}>
                         <Image src="/no-avatar.jpg" alt="user avatar" width={40} height={40} className={Styles.userImage} />

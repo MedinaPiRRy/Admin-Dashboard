@@ -6,6 +6,7 @@
 
 .title{
     margin-bottom: 20px;
+    margin-top: 10px;
     font-weight: 200;
     color: var(--textSoft);
 }
@@ -16,6 +17,14 @@
 
 .table td{
     padding: 10px;
+}
+
+.userOption:hover{
+    background-color: #afd6ee75;
+    text-decoration: underline;
+    font-weight: 200;
+    font-size: large;
+    cursor: pointer;
 }
 
 .user{
