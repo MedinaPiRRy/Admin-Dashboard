@@ -22,7 +22,7 @@
 .userOption:hover{
     background-color: #afd6ee75;
     text-decoration: underline;
-    font-weight: 200;
+    font-weight: 800;
     font-size: large;
     cursor: pointer;
 }
