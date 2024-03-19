@@ -64,7 +64,6 @@ const generateRandomData = () => {
 };
 
 const data = generateRandomData();
-console.log(data);
 
 const Chart = () => {
    return (
