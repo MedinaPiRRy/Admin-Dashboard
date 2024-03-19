@@ -2,43 +2,69 @@
 import Styles from './chart.module.css';
 import { LineChart, Line, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
-const data = [
-   {
-     name: "Sun",
-     visit: 4000,
-     click: 2400,
-   },
-   {
-     name: "Mon",
-     visit: 3000,
-     click: 1398,
-   },
-   {
-     name: "Tue",
-     visit: 2000,
-     click: 3800,
-   },
-   {
-     name: "Wed",
-     visit: 2780,
-     click: 3908,
-   },
-   {
-     name: "Thu",
-     visit: 1890,
-     click: 4800,
-   },
-   {
-     name: "Fri",
-     visit: 2390,
-     click: 3800,
-   },
-   {
-     name: "Sat",
-     visit: 3490,
-     click: 4300,
-   },
- ];
+// Static data
+// const data = [
+//    {
+//      name: "Sun",
+//      visit: 4000,
+//      click: 2400,
+//    },
+//    {
+//      name: "Mon",
+//      visit: 3000,
+//      click: 1398,
+//    },
+//    {
+//      name: "Tue",
+//      visit: 2000,
+//      click: 3800,
+//    },
+//    {
+//      name: "Wed",
+//      visit: 2780,
+//      click: 3908,
+//    },
+//    {
+//      name: "Thu",
+//      visit: 1890,
+//      click: 4800,
+//    },
+//    {
+//      name: "Fri",
+//      visit: 2390,
+//      click: 3800,
+//    },
+//    {
+//      name: "Sat",
+//      visit: 3490,
+//      click: 4300,
+//    },
+//  ];
+
+const generateRandomData = () => {
+  const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const data = days.map((day) => {
+    // Generate random numbers for visit and click
+    let visit = Math.floor(Math.random() * (6000 - 2000 + 1)) + 2000;
+    let click = Math.floor(Math.random() * (6000 - 2000 + 1)) + 2000;
+
+    // Make sure that visit is always larger than click
+    if (click > visit) {
+      [visit, click] = [click, visit]; // Swap if click is greater than visit
+    }
+
+    return {
+      name: day,
+      visit,
+      click,
+    };
+  });
+
+  return data;
+};
+
+const data = generateRandomData();
+console.log(data);
 
 const Chart = () => {
    return (
