@@ -7,7 +7,11 @@ const ThirdCard = () => {
     const data = getData();
     const totalVisits = data.totalVisits;
 
-    const percentage = Math.floor(Math.random() * 99) - 50;
+    let percentage = Math.floor(Math.random() * 99) - 50;
+
+    if (percentage === 0) {percentage = 5;}
+    
+    const percentageClassName = percentage >= 0 ? Styles.positive : Styles.negative;
 
    return (
       <div className={Styles.container}>
@@ -16,7 +20,7 @@ const ThirdCard = () => {
             <span className={Styles.title}>Total Visitors: </span>
             <span className={Styles.number}>{totalVisits}</span>
             <span className={Styles.detail}>
-                <span className={Styles.positive}>{percentage}%</span> more than the previous week.!
+                <span className={percentageClassName}>{percentage}%</span> more than the previous week.!
             </span>
         </div>
       </div>

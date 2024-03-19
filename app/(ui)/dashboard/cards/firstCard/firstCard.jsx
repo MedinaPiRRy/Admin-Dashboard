@@ -7,7 +7,10 @@ const FirstCard = () => {
   const data = getData();
   const totalUsers = data.totalUsers;
 
-  const percentage = Math.floor(Math.random() * 99) - 50;
+  let percentage = Math.floor(Math.random() * 99) - 50;
+
+  if (percentage === 0) {percentage = 5;}
+
   const percentageClassName = percentage >= 0 ? Styles.positive : Styles.negative;
 
    return (
