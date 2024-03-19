@@ -1,11 +1,10 @@
 import { MdSupervisedUserCircle } from "react-icons/md";
 import Styles from "./firstCard.module.css";
-import getData from "../script";
+import { returnedData } from "../script";
 
 const FirstCard = () => {
 
-  const data = getData();
-  const totalUsers = data.totalUsers;
+  const users = returnedData.totalUsers;
 
   let percentage = Math.floor(Math.random() * 99) - 50;
 
@@ -13,14 +12,16 @@ const FirstCard = () => {
 
   const percentageClassName = percentage >= 0 ? Styles.positive : Styles.negative;
 
+  const moreThan = percentage >= 0 ? "more" : "less";
+
    return (
       <div className={Styles.container}>
         <MdSupervisedUserCircle size={24}/>
         <div className={Styles.texts}>
             <span className={Styles.title}>Total Users: </span>
-            <span className={Styles.number}>{totalUsers}</span>
+            <span className={Styles.number}>{users}</span>
             <span className={Styles.detail}>
-                <span className={percentageClassName}>{percentage}%</span> more than the previous week.!
+                <span className={percentageClassName}>{percentage}%</span> {moreThan} than the previous week.!
             </span>
         </div>
       </div>
