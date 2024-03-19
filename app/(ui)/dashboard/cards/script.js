@@ -8,13 +8,9 @@ function getData() {
         [totalUsers, totalVisits] = [totalVisits, totalUsers];
     }
 
-    console.log(totalUsers, totalSales, totalVisits);
-
     return { totalUsers, totalSales, totalVisits };
 }
 
     const returnedData = getData();
 
-    console.log({returnedData});
-
-export { returnedData };
+    export { returnedData };

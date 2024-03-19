@@ -10,3 +10,7 @@
     background-color: #2e374a;
     border-radius: 10px;
 }
+
+.active{
+    border-color: aqua;
+}
