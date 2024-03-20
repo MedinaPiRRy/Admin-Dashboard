@@ -15,16 +15,24 @@ const ThirdCard = () => {
     const moreThan = percentage >= 0 ? "more" : "less";
 
    return (
-      <div className={Styles.container}>
+    <div className={Styles.container}>
+    <div className={Styles.cardFront}>
+    <div className={Styles.texts}>
+        <div className={Styles.titleLine}>
         <MdAdsClick size={24}/>
-        <div className={Styles.texts}>
-            <span className={Styles.title}>Total Visitors: </span>
-            <span className={Styles.number}>{visits}</span>
-            <span className={Styles.detail}>
-                <span className={percentageClassName}>{percentage}%</span> {moreThan} than the previous week.!
-            </span>
+        <span className={Styles.title}>Total Visitors: </span>
         </div>
-      </div>
+        <span className={Styles.number}>{visits}</span>
+        <span className={Styles.detail}>
+            <span className={percentageClassName}>{percentage}%</span> {moreThan} than the previous week.!
+        </span>
+    </div>
+    </div>
+    <div className={Styles.cardBack}>
+    {/* Backside content goes here */}
+    <div>More information...</div>
+    </div>
+</div>
    )
 };
 

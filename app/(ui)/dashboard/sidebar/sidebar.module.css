@@ -23,11 +23,21 @@
 
 .userName{
     font-weight: 500;
+    cursor: pointer;
+}
+
+.userName:hover{
+    text-decoration: underline;
 }
 
 .userTitle{
     font-size: 12px;
     color: var(--textSoft);
+    cursor: pointer;
+}
+
+.userTitle:hover{
+    text-decoration: underline;
 }
 
 .list{

@@ -16,13 +16,21 @@ const FirstCard = () => {
 
    return (
       <div className={Styles.container}>
-        <MdSupervisedUserCircle size={24}/>
-        <div className={Styles.texts}>
-            <span className={Styles.title}>Total Users: </span>
-            <span className={Styles.number}>{users}</span>
-            <span className={Styles.detail}>
-                <span className={percentageClassName}>{percentage}%</span> {moreThan} than the previous week.!
-            </span>
+        <div className={Styles.cardFront}>
+          <div className={Styles.texts}>
+            <div className={Styles.titleLine}>
+              <MdSupervisedUserCircle size={24}/>
+              <span className={Styles.title}>Total Users: </span>
+            </div>
+              <span className={Styles.number}>{users}</span>
+              <span className={Styles.detail}>
+                  <span className={percentageClassName}>{percentage}%</span> {moreThan} than the previous week.!
+              </span>
+          </div>
+        </div>
+        <div className={Styles.cardBack}>
+          {/* Backside content goes here */}
+          <div>More information...</div>
         </div>
       </div>
    )

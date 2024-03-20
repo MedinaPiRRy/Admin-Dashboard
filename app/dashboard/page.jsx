@@ -15,8 +15,10 @@ const DashboardPage = () => {
           <SecondCard />
           <ThirdCard />
         </div>
+        <div>
           <Transaction />
           <Chart />
+        </div>
       </div>
       <div className={Styles.side}>
         <RightBar />
