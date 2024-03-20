@@ -29,10 +29,6 @@
     transform-style: preserve-3d;
 }
 
-.cardFront {
-    /* Keep this as is, but ensure it's also absolutely positioned */
-}
-
 .cardBack {
     transform: rotateY(180deg); /* Initially flipped to hide */
 }
