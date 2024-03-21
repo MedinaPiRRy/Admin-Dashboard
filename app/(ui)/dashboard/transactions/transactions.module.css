@@ -19,10 +19,15 @@
     padding: 10px;
 }
 
+.userOption{
+    text-decoration: underline 0.15em rgba(255, 255, 255, 0);
+    transition: text-decoration-color 300ms;
+}
+
 .userOption:hover{
     background-color: #afd6ee75;
-    text-decoration: underline;
-    font-weight: 800;
+    text-decoration-color: rgba(255, 255, 255, 1);
+    font-weight: 600;
     font-size: large;
     cursor: pointer;
 }

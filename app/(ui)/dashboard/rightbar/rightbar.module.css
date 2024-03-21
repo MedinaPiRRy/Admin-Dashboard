@@ -50,19 +50,34 @@
     border-radius: 5px;
     cursor: pointer;
     width: max-content;
+    transition: transform 0.3s;
 }
 
 .button:hover{
     background-color: #4f4aa3;
+    animation: bubble 0.4s ease-out;
+
 }
 
 .subtitle {
     color: var(--textSoft);
     font-weight: 500;
     font-size: 12px;
-  }
+}
   
-  .desc {
+.desc {
     color: var(--textSoft);
     font-size: 14px;
-  }
+}
+
+@keyframes bubble {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.2);
+    }
+    100% {
+      transform: scale(1);
+    }
+}

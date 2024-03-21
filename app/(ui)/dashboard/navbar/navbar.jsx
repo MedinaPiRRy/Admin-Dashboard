@@ -21,9 +21,9 @@ const Navbar = () => {
                     <input type="text" placeholder='Search...' className={Styles.input} />
                 </div>
                 <div className={Styles.icons}>
-                    <MdOutlineChat size={40} color="#fff" className={Styles.icon} />
-                    <MdNotifications size={40} color="#fff" className={Styles.icon} />
-                    <MdPublic size={40} color="#fff" className={Styles.icon} />
+                    <MdOutlineChat size={50} color="#fff" className={Styles.icon} />
+                    <MdNotifications size={50} color="#fff" className={Styles.icon} />
+                    <MdPublic size={50} color="#fff" className={Styles.icon} />
                 </div>
             </div>
         </div>

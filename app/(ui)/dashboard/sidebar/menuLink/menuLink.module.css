@@ -4,10 +4,12 @@
     align-items: center;
     gap: 10px;
     margin: 5px 0px;
+    text-decoration: underline 0.15em rgba(255, 255, 255, 0);
+    transition: text-decoration-color 300ms;
 }
 
 .container:hover, .active{
     background-color: #2e374a;
     border-radius: 10px;
-    text-decoration: underline;
+    text-decoration-color: rgba(255, 255, 255, 1);
 }
