@@ -1,0 +1,26 @@
+.container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background-color: #2e374a;
+    border-radius: 10px;
+    width: max-content;
+}
+
+.container:focus, .container:hover {
+    outline: none;
+    border-color: rgba(70, 96, 243, 0.4);
+    box-shadow: 0 0 0 4px rgb(234 76 137 / 10%);
+}
+
+.input{
+    background-color: transparent;
+    border: none;
+    color: var(--text);
+}
+
+.input:focus, .input:hover {
+    outline: none;
+    border-color: none;
+}
