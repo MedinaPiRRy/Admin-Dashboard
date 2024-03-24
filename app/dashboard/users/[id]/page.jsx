@@ -19,7 +19,7 @@ const SingleUserPage = () => {
                 <label>Password</label>
                 <input type="password" name='password' placeholder='************' />
                 <label>Phone</label>
-                <input type="number" name='Phone' placeholder='+1(654)852-3695' />
+                <input type="number" name='Phone' placeholder='+1 (654) 852-3695' />
                 <label>Address</label>
                 <textarea type="text" name='address' placeholder='address' />
                 <label>Is Admin?</label>
