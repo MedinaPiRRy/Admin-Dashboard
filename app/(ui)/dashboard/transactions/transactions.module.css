@@ -22,14 +22,15 @@
 .userOption{
     text-decoration: underline 0.15em rgba(255, 255, 255, 0);
     transition: text-decoration-color 300ms;
+    transition: 300ms;
 }
 
 .userOption:hover{
     background-color: #afd6ee75;
     text-decoration-color: rgba(255, 255, 255, 1);
     font-weight: 600;
-    font-size: large;
     cursor: pointer;
+    scale: 1.1;
 }
 
 .user{
@@ -60,4 +61,22 @@
 
 .cancelled{
     background-color: #f7737375;
+}
+
+.hr {
+    margin-top: 30px;
+    height: 12px;
+    border: 0;
+    box-shadow: inset 0 12px 12px -12px rgba(0, 0, 0, 0.5);
+}
+
+.table thead td{
+    text-decoration: underline 0.15em rgba(255, 255, 255, 0);
+    transition: text-decoration-color 300ms;
+    transition: 300ms;
+}
+
+.table thead td:hover{
+    text-decoration-color: rgba(255, 255, 255, 1);
+    cursor: pointer;
 }

@@ -89,3 +89,27 @@
       transform: scale(1);
     }
 }
+
+.table tbody td:not(:last-child){
+    text-decoration: underline 0.15em rgba(255, 255, 255, 0);
+    transition: text-decoration-color 300ms;
+    transition: 300ms;
+}
+
+.table tbody td:not(:last-child):hover{
+    text-decoration-color: rgba(255, 255, 255, 1);
+    background-color: #afd6ee75;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.table thead td{
+    text-decoration: underline 0.15em rgba(255, 255, 255, 0);
+    transition: text-decoration-color 300ms;
+    transition: 300ms;
+}
+
+.table thead td:hover{
+    text-decoration-color: rgba(255, 255, 255, 1);
+    cursor: pointer;
+}

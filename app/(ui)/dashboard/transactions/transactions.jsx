@@ -69,6 +69,7 @@ const Transaction = () => {
                </tr>
             </tbody>
          </table>
+         <hr className={Styles.hr} />
       </div>
    )
 };
