@@ -1,0 +1,125 @@
+.container{
+    display: flex;
+    gap: 50px;
+    margin-top: 20px;
+}
+
+.infoContainer{
+    flex: 1;
+    background-color: var(--bgSoft);
+    padding: 20px;
+    border-radius: 10px;
+    font-weight: bold;
+    color: var(--textSoft);
+    height: max-content;
+}
+
+.infoContainer span{
+    text-decoration: underline 0.15em rgba(255, 255, 255, 0);
+    transition: text-decoration-color 300ms;
+    transition: 300ms;
+}
+
+.infoContainer span:hover{
+    text-decoration-color: rgba(255, 255, 255, 1);
+    cursor: pointer;
+}
+
+.imgContainer{
+    width: 100%;
+    height: 300px;
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.formContainer{
+    flex: 3;
+    background-color: var(--bgSoft);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.form{
+    display: flex;
+    flex-direction: column;
+}
+
+.form input, .form textarea, .form select{
+    padding: 20px;
+    border: 2px solid #2e374a;
+    border-radius: 5px;
+    background-color: var(--bg);
+    color: var(--text);
+    margin: 10px 0px;
+}
+.form input:focus, .form textarea:focus, .form select:focus{
+    outline: none;
+    border-color: teal;
+}
+
+.form label{
+    font-size: 12px;
+}
+
+.form button{
+    width: 100%;
+    padding: 0px 40px 0px 15px;
+    background-color: teal;
+    color: #A49A87;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    height: 40px;
+    line-height: 40px;
+    border: 1px solid rgb(0, 112, 112);
+    position: relative;
+    overflow: hidden;
+    transition: .4s all ease;
+}
+
+.form button:before {
+    content: ">";
+    position: absolute;
+    right: 10px;
+}
+
+.form span {
+    position: relative;
+    top: 0px;
+    transition: .4s all ease;
+}
+
+.form span:after {
+    content: attr(title);
+    display: block;
+    opacity: 0;
+    transition: .4s all ease;
+    color: white;
+}
+
+.form button:hover {
+    border-color: white;
+}
+
+.form button:hover:before {
+    color: white;
+}
+
+.form button:hover span {
+    top: -40px;
+}
+
+.form button:hover span:after {
+    opacity: 1;
+    content: 'Update User';
+}
+
+/* Hide Select down-arrow */
+.form select {
+    -moz-appearance: none; /* Firefox */
+    -webkit-appearance: none; /* Safari and Chrome */
+    appearance: none;
+}
