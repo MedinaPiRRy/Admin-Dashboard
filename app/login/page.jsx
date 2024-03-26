@@ -1,12 +1,20 @@
+import Styles from '@/(ui)/login/login.module.css';
+
 const LoginPage = () => {
     return (
-        <div>
-        <h1>Login</h1>
-        <form>
-            <input type="text" placeholder="username" />
-            <input type="password" placeholder="password" />
-            <button type="submit">Login</button>
-        </form>
+        <div className={Styles.container}>
+            <form action='' className={Styles.form}>
+                <h1>Login</h1>
+                <div className={Styles.inputWrapper}>
+                    <input type="text" id='username' required />
+                    <label htmlFor="username" className={Styles.placeholder}>Username</label>
+                </div>
+                <div className={Styles.inputWrapper}>
+                    <input type="password" id='password' required />
+                    <label htmlFor="password" className={Styles.placeholder}>Password</label>
+                </div>
+                <button type="submit"><span>Login</span></button>
+            </form>
         </div>
     );
 }
