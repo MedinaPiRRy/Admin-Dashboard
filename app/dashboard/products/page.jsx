@@ -34,7 +34,7 @@ const ProductsPage = async() => {
                         <td>
                            <div className={Styles.product}>
                               <Image src={product.img || "/no-product.jpg"} alt='user image' width={40} height={40} className={Styles.productImage} />
-                              iPhone
+                              {product.title}
                            </div>
                         </td>
                         <td>{product.color}</td>
