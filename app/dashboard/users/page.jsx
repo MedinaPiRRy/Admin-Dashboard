@@ -3,8 +3,14 @@ import Styles from '@/(ui)/dashboard/users/users.module.css';
 import Pagination from '@/(ui)/dashboard/pagination/pagination';
 import Link from 'next/link';
 import Image from 'next/image';
+import { getUsers } from '@/lib/data';
 
-const UsersPage = () => {
+const UsersPage = async() => {
+
+   const users = await getUsers();
+
+   console.log(users);
+
    return (
       <div className={Styles.container}>
          <div className={Styles.top}>
@@ -25,31 +31,33 @@ const UsersPage = () => {
                   </tr>
                </thead>
                <tbody>
-                  <tr>
-                     <td>
-                        <div className={Styles.user}>
-                           <Image src="/no-avatar.jpg" alt='user image' width={40} height={40} className={Styles.userImage} />
-                           John Doe
-                        </div>
-                     </td>
-                     <td>john.doe@gmail.com</td>
-                     <td>13 January 2022</td>
-                     <td>Admin</td>
-                     <td>Active</td>
-                     <td>
-                        <div className={Styles.buttons}>
-                           <Link href="/dashboard/users/test">
-                              <button className={`${Styles.button} ${Styles.view}`}>View</button>
-                           </Link>
-                           <button className={`${Styles.button} ${Styles.delete}`}>Delete</button>
-                        </div>
-                     </td>
-                  </tr>
+                  {users.map((user) => (
+                        <tr key={user.id}>
+                        <td>
+                           <div className={Styles.user}>
+                              <Image src="/no-avatar.jpg" alt='user image' width={40} height={40} className={Styles.userImage} />
+                              {user.username}
+                           </div>
+                        </td>
+                        <td>{user.email}</td>
+                        <td>{user.createdAt?.toString().slice(4,16)}</td>
+                        <td>{user.isAdmin ? "Admin" : "Client"}</td>
+                        <td>{user.status ? "Active" : "Inactive"}</td>
+                        <td>
+                           <div className={Styles.buttons}>
+                              <Link href={`/dashboard/users/${user.id}`}>
+                                 <button className={`${Styles.button} ${Styles.view}`}>View</button>
+                              </Link>
+                              <button className={`${Styles.button} ${Styles.delete}`}>Delete</button>
+                           </div>
+                        </td>
+                     </tr>
+                  ))}
                </tbody>
-            </table>
-            <Pagination />
-      </div>
-   )
-};
-
-export default UsersPage;
+               </table>
+               <Pagination />
+               </div>
+               )
+            };
+            
+            export default UsersPage;
