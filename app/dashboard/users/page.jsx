@@ -9,8 +9,6 @@ const UsersPage = async() => {
 
    const users = await getUsers();
 
-   console.log(users);
-
    return (
       <div className={Styles.container}>
          <div className={Styles.top}>
@@ -35,7 +33,7 @@ const UsersPage = async() => {
                         <tr key={user.id}>
                         <td>
                            <div className={Styles.user}>
-                              <Image src="/no-avatar.jpg" alt='user image' width={40} height={40} className={Styles.userImage} />
+                              <Image src={user.img || "/no-avatar.jpg"} alt='user image' width={40} height={40} className={Styles.userImage} />
                               {user.username}
                            </div>
                         </td>
