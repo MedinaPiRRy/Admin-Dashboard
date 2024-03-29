@@ -6,7 +6,6 @@
     width: 100%;
     height: auto; /* Adjust based on your content, or set a fixed height */
     perspective: 1000px; /* This should be on the container to affect its children */
-    cursor: pointer;
 }
 
 .titleLine{

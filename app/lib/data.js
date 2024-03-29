@@ -3,10 +3,13 @@ import { connectToDB } from './utils.js';
 
 // User functions
 
-export const getUsers = async () => {
+export const getUsers = async (q) => {
+
+    const regex = new RegExp(q, 'i');
+
     try {
         connectToDB();
-        const users = await User.find({});
+        const users = await User.find({username: {$regex: regex}});
         return users;
     } catch (error) {
         console.log("Failed to fetch users");
