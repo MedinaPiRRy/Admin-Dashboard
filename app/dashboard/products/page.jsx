@@ -5,9 +5,10 @@ import Search from '@/(ui)/dashboard/search/search';
 import Pagination from '@/(ui)/dashboard/pagination/pagination';
 import { getProducts } from '@/lib/data';
 
-const ProductsPage = async() => {
-
-   const Products = await getProducts();
+const ProductsPage = async ({searchParams}) => {
+   const q = searchParams?.q || "";
+   const page = searchParams?.page || "1";
+   const { products, count } = await getProducts(q, page);
 
    return (
       <div className={Styles.container}>
@@ -29,7 +30,7 @@ const ProductsPage = async() => {
                   </tr>
                </thead>
                <tbody>
-                  {Products.map((product) => (
+                  {products.map((product) => (
                      <tr key={product.id}>
                         <td>
                            <div className={Styles.product}>
@@ -53,7 +54,7 @@ const ProductsPage = async() => {
                   ))}
                </tbody>
             </table>
-            <Pagination />
+            <Pagination count={count} />
       </div>
    )
 };

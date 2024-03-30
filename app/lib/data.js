@@ -3,14 +3,17 @@ import { connectToDB } from './utils.js';
 
 // User functions
 
-export const getUsers = async (q) => {
+export const getUsers = async (q,page) => {
 
     const regex = new RegExp(q, 'i');
 
+    const ITEM_PER_PAGE = 2;
+
     try {
         connectToDB();
-        const users = await User.find({username: {$regex: regex}});
-        return users;
+        const count = await User.find({username: {$regex: regex}}).count();
+        const users = await User.find({username: {$regex: regex}}).limit(ITEM_PER_PAGE).skip((page - 1) * ITEM_PER_PAGE);
+        return {users, count};
     } catch (error) {
         console.log("Failed to fetch users");
         throw new Error(error);
@@ -66,11 +69,17 @@ export const deleteUser = async (id) => {
 
 // Product functions
 
-export const getProducts = async () => {
+export const getProducts = async (q, page) => {
+
+    const regex = new RegExp(q, 'i');
+
+    const ITEM_PER_PAGE = 2;
+
     try {
         connectToDB();
-        const products = await Product.find({});
-        return products;
+        const count = await Product.find({title: {$regex: regex}}).count();
+        const products = await Product.find({title: {$regex: regex}}).limit(ITEM_PER_PAGE).skip((page - 1) * ITEM_PER_PAGE);
+        return {products, count};
     } catch (error) {
         console.log("Failed to fetch products");
         throw new Error(error);
