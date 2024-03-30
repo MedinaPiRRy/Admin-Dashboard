@@ -5,6 +5,7 @@ import Transaction from "@/(ui)/dashboard/transactions/transactions";
 import Chart from "@/(ui)/dashboard/chart/chart";
 import SecondCard from "@/(ui)/dashboard/cards/secondCard/secondCard";
 import ThirdCard from "@/(ui)/dashboard/cards/thirdCard/thirdCard";
+import ScrollButton from "@/(ui)/dashboard/scrollTopButton/scrollButton";
 
 const DashboardPage = () => {
   return (
@@ -18,6 +19,7 @@ const DashboardPage = () => {
         <div>
           <Transaction />
           <Chart />
+          <ScrollButton />
         </div>
       </div>
       <div className={Styles.side}>
