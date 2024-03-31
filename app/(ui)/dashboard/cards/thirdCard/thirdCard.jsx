@@ -1,6 +1,6 @@
 import { MdAdsClick } from "react-icons/md";
 import Styles from "./thirdCard.module.css";
-import { returnedData } from "../script";
+import { returnedData } from "../../../../lib/cards";
 
 const ThirdCard = () => {
 

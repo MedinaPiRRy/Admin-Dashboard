@@ -1,6 +1,6 @@
 import { MdAddShoppingCart } from "react-icons/md";
 import Styles from "./secondCard.module.css";
-import { returnedData } from "../script";
+import { returnedData } from "../../../../lib/cards";
 
 const SecondCard = () => {
 

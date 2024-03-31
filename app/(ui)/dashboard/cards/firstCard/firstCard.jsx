@@ -1,6 +1,6 @@
 import { MdSupervisedUserCircle } from "react-icons/md";
 import Styles from "./firstCard.module.css";
-import { returnedData } from "../script";
+import { returnedData } from "../../../../lib/cards";
 
 const FirstCard = () => {
 
