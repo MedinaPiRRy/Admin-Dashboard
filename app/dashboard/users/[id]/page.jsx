@@ -1,36 +1,49 @@
 import Styles from '@/(ui)/dashboard/users/singleUser/singleUserPage.module.css';
 import Image from 'next/image';
+import { getUser } from '@/lib/data';
+import { updateUser } from '@/lib/actions';
 
-const SingleUserPage = () => {
+const SingleUserPage = async ({params}) => {
+
+    const { id } = params;
+    const user = await getUser(id);
+
    return (
       <div className={Styles.container}>
         <div className={Styles.infoContainer}>
             <div className={Styles.imgContainer}>
-                <Image src='/no-avatar.jpg' alt='user image' fill />
+                <Image src={user.img || "/no-avatar.jpg"} alt='user image' fill />
             </div>
-            <span>John Doe</span>
+            <span>{user.username}</span>
         </div>
         <div className={Styles.formContainer}>
-            <form action="" className={Styles.form}>
+            <form action={updateUser} className={Styles.form}>
+                <input type="text" hidden={true} value={user.id} name='id' />
                 <label>Username</label>
-                <input type="text" name='username' placeholder='John Doe' />
+                <input type="text" name='username' placeholder={user.username} />
                 <label>Email</label>
-                <input type="email" name='email' placeholder='John.Doe@gmail.com' />
-                <label>Password</label>
-                <input type="password" name='password' placeholder='************' />
+                <input type="email" name='email' placeholder={user.email} />
+                <div className={Styles.passwordContainer}>
+                    <label>Password</label><br />
+                    <input type="password" name="password" placeholder="Password" />
+                    <div className={Styles.retype}>
+                        <label>Retype Password</label><br />
+                        <input type="password" name="retype" placeholder="Retype password" />
+                    </div>
+                </div>
                 <label>Phone</label>
-                <input type="number" name='Phone' placeholder='+1 (654) 852-3695' />
+                <input type="number" name='phone' placeholder={user.phone || "No Phone Number"} />
                 <label>Address</label>
-                <textarea type="text" name='address' placeholder='address' />
+                <textarea type="text" name='address' placeholder={user.address || "No Address"} />
                 <label>Is Admin?</label>
                 <select name="isAdmin" id="isAdmin">
-                    <option value={true}>YES</option>
-                    <option value={false}>NO</option>
+                    <option value={true} selected={user.isAdmin}>YES</option>
+                    <option value={false} selected={!user.isAdmin}>NO</option>
                 </select>
                 <label>Is Active?</label>
                 <select name="isActive" id="isActive">
-                    <option value={true}>YES</option>
-                    <option value={false}>NO</option>
+                    <option value={true} selected={user.isActive}>YES</option>
+                    <option value={false} selected={!user.isActive}>NO</option>
                 </select>
                 <button type='submit'><span>Update</span></button>
             </form>

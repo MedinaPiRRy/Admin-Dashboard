@@ -33,7 +33,7 @@ const userSchema = new mongoose.Schema({
         default: true
     },
     phone: {
-        type: String,
+        type: Number,
         min: 10,
         max: 15
     },
@@ -52,7 +52,6 @@ const productSchema = new mongoose.Schema({
     },
     desc: {
         type: String,
-        required: true,
     },
     price: {
         type: Number,

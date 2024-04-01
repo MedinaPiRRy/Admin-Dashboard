@@ -7,17 +7,6 @@ import bcrypt from 'bcrypt';
 
 // User functions
 
-export const getUser = async (id) => {
-    try {
-        connectToDB();
-        const user = await User.findById(id);
-        return user;
-    } catch (error) {
-        console.log("Failed to fetch user");
-        throw new Error(error);
-    }
-}
-
 export const createUser = async (formData) => {
 
     const data = Array.from(formData.entries()).reduce((acc, [key, value]) => ({
@@ -31,7 +20,7 @@ export const createUser = async (formData) => {
 
     if (password !== retype) {
         // create redirect to error page
-        throw new Error("Passwords do not match");
+        redirect('/dashboard/users/add?error=passwordMismatch');
     } else {
         try {
             connectToDB();
@@ -51,7 +40,11 @@ export const createUser = async (formData) => {
             await newUser.save();
         } catch (error) {
             console.log("Failed to create user");
-            throw new Error(error);
+            if (error.code === 11000) {
+                redirect('/dashboard/users/add?error=duplicateUser');
+            } else {
+                throw new Error(error);
+            }
         }
 
         revalidatePath("/dashboard/users");
@@ -59,43 +52,75 @@ export const createUser = async (formData) => {
     }
 }
 
-export const updateUser = async (id, data) => {
+export const updateUser = async (formData) => {
+
+    const data = Array.from(formData.entries()).reduce((acc, [key, value]) => ({
+        ...acc,
+        [key]: value === 'true' ? true : value === 'false' ? false : value // Convert 'true'/'false' strings to booleans
+    }), {});
+
+    const { 
+        id, username, email, password, phone, address, isAdmin, isActive, retype 
+    } = data;
+
+    if (password !== retype) {
+        // create redirect to error page
+        throw new Error("Passwords do not match");
+    }
+
+    if (password) {
+        const salt = await bcrypt.genSalt(10);
+        var hashedPassword = await bcrypt.hash(password, salt);
+    } else {
+        hashedPassword = null;
+    }
+
+    const newPass = hashedPassword || null;
+
     try {
         connectToDB();
-        const user = await User.findByIdAndUpdate(id, data, {
-            new: true,
-            runValidators: true
+        const updatedFields = {
+            username,
+            email,
+            password: newPass,
+            phone,
+            address,
+            isAdmin,
+            isActive
+        };
+
+        Object.keys(updatedFields).forEach(key => {
+            if (!updatedFields[key] || updatedFields[key] === "undefined" || updatedFields[key] === null) {
+                delete updatedFields[key];
+            }
         });
-        return user;
+
+        await User.findByIdAndUpdate(id, updatedFields);
     } catch (error) {
         console.log("Failed to update user");
         throw new Error(error);
     }
+
+    revalidatePath(`/dashboard/users/${id}`); // revalidate user page (/dashboard/users/[id]/page)
+    redirect(`/dashboard/users/${id}`); // redirect to user page
 }
 
-export const deleteUser = async (id) => {
+export const deleteUser = async (formData) => {
+
+    const { id } = Object.fromEntries(formData);
+
     try {
         connectToDB();
         const user = await User.findByIdAndDelete(id);
-        return user;
     } catch (error) {
         console.log("Failed to delete user");
         throw new Error(error);
     }
+
+    revalidatePath("/dashboard/users");
 }
 
 // Products functions
-
-export const getProduct = async (id) => {
-    try {
-        connectToDB();
-        const product = await Product.findById(id);
-        return product;
-    } catch (error) {
-        console.log("Failed to fetch product");
-        throw new Error(error);
-    }
-}
 
 export const createProduct = async (formData) => {
 
@@ -107,6 +132,11 @@ export const createProduct = async (formData) => {
     const { 
         title, cat, price, stock, color, size, desc 
     } = data;
+
+    if (desc === "undefined" || desc === null || desc === "") {
+        var newDesc = "No Description Available";
+    } else {var newDesc = desc;}
+
     try {
         connectToDB();
         const newProduct = new Product({
@@ -116,39 +146,76 @@ export const createProduct = async (formData) => {
             stock,
             color,
             size,
-            desc
+            desc: newDesc
         });
         await newProduct.save();
     } catch (error) {
         console.log("Failed to create product");
-        throw new Error(error);
+        if (error.code === 11000) {
+            redirect('/dashboard/products/add?error=duplicateProduct');
+        } else {
+            throw new Error(error);
+        }
     }
 
     revalidatePath("/dashboard/products");
     redirect("/dashboard/products");
 }
 
-export const updateProduct = async (id, data) => {
+export const updateProduct = async (formData) => {
+
+    const data = Array.from(formData.entries()).reduce((acc, [key, value]) => ({
+        ...acc,
+        [key]: value === 'true' ? true : value === 'false' ? false : value // Convert 'true'/'false' strings to booleans
+    }), {});
+
+    const { 
+        id, title, cat, price, stock, color, size, desc 
+    } = data;
+
+    if (cat === "none") {var newCat = null;} else {var newCat = cat;}
+    const updatedCat = newCat;
+
     try {
         connectToDB();
-        const product = await Product.findByIdAndUpdate(id, data, {
-            new: true,
-            runValidators: true
+
+        const updatedFields = {
+            title,
+            category: updatedCat,
+            price,
+            stock,
+            color,
+            size,
+            desc
+        };
+
+        Object.keys(updatedFields).forEach(key => {
+            if (!updatedFields[key] || updatedFields[key] === "undefined" || updatedFields[key] === null) {
+                delete updatedFields[key];
+            }
         });
-        return product;
+
+        await Product.findByIdAndUpdate(id, updatedFields);
     } catch (error) {
         console.log("Failed to update product");
         throw new Error(error);
     }
+
+    revalidatePath(`/dashboard/products/${id}`); 
+    redirect(`/dashboard/products/${id}`);
 }
 
-export const deleteProduct = async (id) => {
+export const deleteProduct = async (formData) => {
+
+    const { id } = Object.fromEntries(formData);
+
     try {
         connectToDB();
         const product = await Product.findByIdAndDelete(id);
-        return product;
     } catch (error) {
         console.log("Failed to delete product");
         throw new Error(error);
     }
+
+    revalidatePath("/dashboard/products");
 }

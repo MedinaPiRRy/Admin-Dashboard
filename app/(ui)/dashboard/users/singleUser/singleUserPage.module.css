@@ -41,6 +41,20 @@
     border-radius: 10px;
 }
 
+/* Initially hide the retype password field */
+.retype {
+    display: none;
+}
+
+.passwordContainer input {
+    width: 100%;
+}
+
+/* When the password container is focused, display the retype password field */
+.passwordContainer:focus-within .retype{
+    display: block;
+}
+
 .form{
     display: flex;
     flex-direction: column;
