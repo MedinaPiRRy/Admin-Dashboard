@@ -16,7 +16,7 @@ export const getUsers = async (q,page) => {
         return {users, count};
     } catch (error) {
         console.log("Failed to fetch users");
-        throw new Error(error);
+        throw Error(error);
     }
 }
 

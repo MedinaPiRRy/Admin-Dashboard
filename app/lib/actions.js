@@ -4,6 +4,7 @@ import { User, Product } from './models.js';
 import { connectToDB } from './utils.js';
 import { redirect } from 'next/navigation';
 import bcrypt from 'bcrypt';
+import { signIn } from '../../auth.js';
 
 // User functions
 
@@ -218,4 +219,29 @@ export const deleteProduct = async (formData) => {
     }
 
     revalidatePath("/dashboard/products");
+}
+
+// Authentication functions
+
+export const authenticate = async (prevState, formData) => {
+    const data = Array.from(formData.entries()).reduce((acc, [key, value]) => ({
+        ...acc,
+        [key]: value === 'true' ? true : value === 'false' ? false : value // Convert 'true'/'false' strings to booleans
+    }), {});
+
+    const { 
+        username, password,
+    } = data;
+
+    try {
+        await signIn("credentials", {username, password});
+    } catch (error) {
+        if (error.message.includes("CredentialsSignin")) {
+            return "Wrong credentials!";
+        } else if (error.message.includes("NEXT_REDIRECT")) {
+            return redirect("/dashboard");
+        }
+        console.log("Failed to authenticate user");
+        throw new Error(error);
+    }
 }

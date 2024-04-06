@@ -1,0 +1,121 @@
+.container{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: #2e374a;
+}
+
+.form{
+    background-color: var(--bgSoft);
+    padding: 50px;
+    border-radius: 10px;
+    width: 500px;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 30px;
+    border: 2px solid #2e374a;
+}
+
+.form h1{
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.form input{
+    padding: 20px;
+    outline: none;
+    border: 2px solid #2e374a;
+    border-radius: 5px;
+    background-color: var(--bg);
+    color: var(--text);
+    width: 100%;
+    box-shadow: #2e374a;
+}
+
+.form button{
+    background-color: teal;
+    border: 1px solid rgb(0, 112, 112);
+    color: #A49A87;
+    height: 40px;
+    line-height: 40px;
+    padding: 0px 40px 0px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: .4s all ease;
+}
+
+.form button:before {
+    content: ">";
+    position: absolute;
+    right: 10px;
+}
+
+.form span {
+    position: relative;
+    margin-left: 20px;
+    top: 0px;
+    transition: .4s all ease;
+}
+
+.form span:after {
+    content: attr(title);
+    display: block;
+    opacity: 0;
+    transition: .4s all ease;
+    color: white;
+}
+
+.form button:hover {
+    border-color: white;
+}
+
+.form button:hover:before {
+    color: white;
+}
+
+.form button:hover span {
+    top: -40px;
+}
+
+.form button:hover .form {
+    border: 2px solid teal;
+}
+
+.inputWrapper {
+    --padding: 16px;
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .placeholder {
+    position: absolute;
+    background-color: var(--bg);
+    color: var(--text);
+    left: var(--padding);
+    padding: 0 4px;
+    transition: all 0.2s ease-in;
+  }
+  
+  .form input:is(:focus, :valid) {
+    border: 2px solid teal;
+  }
+
+  .form button:hover span:after {
+    opacity: 1;
+    content: 'Confirm';
+    margin-left: 20px;
+}
+  
+  .form input:is(:focus, :valid) + .placeholder {
+    transform: translatey(calc(-1 * var(--padding) - 12px));
+    font-size: 12px;
+    color: var(--text);
+  }
