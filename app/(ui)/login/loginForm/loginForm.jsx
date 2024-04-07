@@ -7,21 +7,18 @@ const LoginForm = () => {
 
     const [state, formAction] = useFormState(authenticate, undefined);
 
-    const handleLogin = async (formData) => {
-        const data = await authenticate(formData);
-        data.error && setError(data.error);
-    }
+    const error = state ? { borderColor: 'red' } : {};
 
    return (
-            <form action={formAction} className={Styles.form}>
+            <form action={formAction} className={Styles.form} >
                 <h1>Login</h1>
                 <div className={Styles.inputWrapper}>
-                    <input type="text" id='username' name='username' required />
-                    <label htmlFor="username" className={Styles.placeholder}>Username</label>
+                    <input type="text" id='username' name='username' style={error} required />
+                    <label htmlFor="username" className={Styles.placeholder} >Username</label>
                 </div>
                 <div className={Styles.inputWrapper}>
-                    <input type="password" id='password' name='password' required />
-                    <label htmlFor="password" className={Styles.placeholder}>Password</label>
+                    <input type="password" id='password' name='password' style={error} required />
+                    <label htmlFor="password" className={Styles.placeholder} >Password</label>
                 </div>
                 {state && state}
                 <button type="submit"><span>Login</span></button>

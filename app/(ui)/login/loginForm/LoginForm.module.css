@@ -17,7 +17,29 @@
     flex-direction: column;
     justify-content: center;
     gap: 30px;
-    border: 2px solid #2e374a;
+
+    --border-angle: 0turn; 
+    --main-bg: conic-gradient(
+        from var(--border-angle),
+        #213,
+        #112 5%,
+        #112 60%,
+        #213 95%
+      );
+    
+    border: solid 5px transparent;
+    border-radius: 2em;
+    --gradient-border: conic-gradient(from var(--border-angle), transparent 25%, #08f, #f03 99%, transparent);
+    
+    background: 
+            var(--main-bg) padding-box,
+            var(--gradient-border) border-box, 
+            var(--main-bg) border-box;
+    
+    background-position: center center;
+  
+    animation: bg-spin 3s linear infinite;
+
 }
 
 .form h1{
@@ -29,7 +51,7 @@
 .form input{
     padding: 20px;
     outline: none;
-    border: 2px solid #2e374a;
+    border: 2px solid #08f;
     border-radius: 5px;
     background-color: var(--bg);
     color: var(--text);
@@ -38,7 +60,7 @@
 }
 
 .form button{
-    background-color: teal;
+    background-color: #08f;
     border: 1px solid rgb(0, 112, 112);
     color: #A49A87;
     height: 40px;
@@ -105,7 +127,7 @@
   }
   
   .form input:is(:focus, :valid) {
-    border: 2px solid teal;
+    border: 2px solid #f03;
   }
 
   .form button:hover span:after {
@@ -118,4 +140,16 @@
     transform: translatey(calc(-1 * var(--padding) - 12px));
     font-size: 12px;
     color: var(--text);
+  }
+
+  @keyframes bg-spin {
+    to {
+      --border-angle: 1turn;
+    }
+  }
+
+  @property --border-angle {
+    syntax: "<angle>";
+    inherits: true;
+    initial-value: 0turn;
   }

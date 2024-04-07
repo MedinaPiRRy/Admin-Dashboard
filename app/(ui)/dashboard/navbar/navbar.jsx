@@ -7,19 +7,18 @@ import {
     MdPublic,
     MdSearch,
   } from "react-icons/md";
+import NavBarSearch from './navbarSearch/navbarSearch';
 
 const Navbar = () => {
 
     const path = usePathname();
+    const pathName = path.split("/").pop();
 
     return (
         <div className={Styles.container}>
-            <div className={Styles.title}>{path.split("/").pop()}</div>
+            <div className={Styles.title}>{pathName}</div>
             <div className={Styles.menu}>
-                <div className={Styles.search}>
-                    <MdSearch size={20} color="#fff" />
-                    <input type="text" placeholder='Search...' className={Styles.input} />
-                </div>
+                <NavBarSearch placeholder={"Search for page"} />
                 <div className={Styles.icons}>
                     <MdOutlineChat size={50} color="#fff" className={Styles.icon} />
                     <MdNotifications size={50} color="#fff" className={Styles.icon} />
