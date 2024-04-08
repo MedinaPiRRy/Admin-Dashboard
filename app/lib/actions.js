@@ -224,10 +224,7 @@ export const deleteProduct = async (formData) => {
 // Authentication functions
 
 export const authenticate = async (prevState, formData) => {
-    const data = Array.from(formData.entries()).reduce((acc, [key, value]) => ({
-        ...acc,
-        [key]: value === 'true' ? true : value === 'false' ? false : value // Convert 'true'/'false' strings to booleans
-    }), {});
+    const data = Object.fromEntries(formData);
 
     const { 
         username, password,
