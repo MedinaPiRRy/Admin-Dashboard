@@ -10,6 +10,7 @@ const LoginForm = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState({});
+    const [stopForm, setStopForm] = useState({});
     const [isFormValid, setIsFormValid] = useState(false);
     const [hasInteracted, setHasInteracted] = useState(false); 
 
@@ -19,6 +20,7 @@ const LoginForm = () => {
         if (hasInteracted) {
             validateForm();
         }
+        setStopForm({"animation-play-state": "running"});
     }, [username, password, hasInteracted]);
 
     const validateForm = () => {
@@ -48,8 +50,15 @@ const LoginForm = () => {
         }
     };
 
+    const sendForm = (e) => {
+        if (isFormValid) {
+            setStopForm({"animation-play-state": "paused"})
+        }
+    }
+
+
    return (
-            <form action={formAction} className={Styles.form} >
+            <form action={formAction} className={Styles.form} style={stopForm} >
                 <h1>Login</h1>
                 <div className={Styles.inputWrapper}>
                     <input 
@@ -78,7 +87,11 @@ const LoginForm = () => {
                 </div>
                 {state && state}
                 {errors.password && errors.password}
-                <button type="submit" disabled={!isFormValid} ><span>Login</span></button>
+                <button 
+                    type="submit" 
+                    onClick={sendForm}
+                    disabled={!isFormValid} 
+                ><span>Login</span></button>
             </form>
    )
 };

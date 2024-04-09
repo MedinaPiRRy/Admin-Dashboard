@@ -99,17 +99,16 @@ const NavBarSearch = ({placeholder}) => {
             {searchTerm && (
                 <div className={Styles.suggestions}>
                     {filteredMenuItems.map((item) => (
-                        <div className={Styles.suggentionWrapper}>
-                            <div className={Styles.suggentionIcon}>{item.icon}</div>
-                            <div 
-                                key={item.path} 
-                                className={Styles.suggestionItem} 
-                                onClick={() => handleSelect(item.path)}
-                            >
-                                {item.title}
+                    <div className={Styles.suggentionWrapper} key={item.path}> {/* Moved key here */}
+                        <div className={Styles.suggentionIcon}>{item.icon}</div>
+                        <div 
+                            className={Styles.suggestionItem} 
+                            onClick={() => handleSelect(item.path)}
+                        >
+                            {item.title}
                         </div>
-                        </div>
-                    ))}
+                    </div>
+                ))}
                 </div>
             )}
         </div>

@@ -5,18 +5,24 @@ import {
     MdNotifications,
     MdOutlineChat,
     MdPublic,
-    MdSearch,
   } from "react-icons/md";
 import NavBarSearch from './navbarSearch/navbarSearch';
+import { useRouter } from 'next/navigation';
 
 const Navbar = () => {
 
     const path = usePathname();
     const pathName = path.split("/").pop();
 
+    const router = useRouter();
+        
+    const reRoute = () => {
+        router.refresh();
+    };
+    
     return (
         <div className={Styles.container}>
-            <div className={Styles.title}>{pathName}</div>
+            <button onClick={reRoute} className={Styles.title}>{pathName}</button>
             <div className={Styles.menu}>
                 <NavBarSearch placeholder={"Search for page"} />
                 <div className={Styles.icons}>

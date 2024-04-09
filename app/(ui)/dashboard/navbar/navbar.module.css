@@ -24,6 +24,10 @@
     text-decoration: underline 0.15em rgba(255, 255, 255, 0);
     transition: text-decoration-color 300ms;
     margin-left: 20px;
+    background-color: transparent; /* Removes default button background */
+    border: none; /* Removes default button border */
+    padding: 0; /* Removes default button padding */
+    outline: none; /* Removes the focus outline to mimic div behavior */
 }
 
 .title:hover{

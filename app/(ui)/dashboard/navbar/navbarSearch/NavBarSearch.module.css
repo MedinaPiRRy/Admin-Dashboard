@@ -1,4 +1,5 @@
 .container {
+    position: relative;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -26,11 +27,12 @@
 }
 
 .suggestions {
-    margin-top: 100px;
     position: absolute;
+    top: 100%; /* Adjusted to make sure it starts right below the search bar */
+    left: 0;
     background-color: #2e374a;
     color: white;
-    width: 250px;
+    width: 100%; /* Adjust width as necessary, could be 100% of the parent container */
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     max-height: 200px;
     border-radius: 5px;
