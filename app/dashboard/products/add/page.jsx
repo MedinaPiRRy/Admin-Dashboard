@@ -1,40 +1,28 @@
-'use client'
 import Styles from '@/(ui)/dashboard/products/add/add.module.css';
+import Notice from '@/(ui)/dashboard/common/notice';
+import SubmitButton from '@/(ui)/dashboard/common/submitButton';
 import { createProduct } from '@/lib/actions';
-import { useSearchParams } from 'next/navigation';
+import { PRODUCT_CATEGORIES } from '@/lib/constants';
 
-const AddProductsPage = () => {
-
-   const searchParams = new URLSearchParams(useSearchParams());
-   const error = searchParams.get('error') || {};
-
-   // Define a style for the error state
-   const errorStyle = error === 'duplicateProduct' ? { borderColor: 'red' }: {};
-
-   if (error === 'duplicateProduct') {
-      var isHidden = false;
-      var errorMessage = 'Product already exists';
-   } else {
-      var isHidden = true;
-   }
+const AddProductsPage = ({ searchParams }) => {
+   const error = searchParams?.error;
+   const errorStyle = error === 'duplicateProduct' ? { borderColor: 'red' } : {};
 
    return (
       <div className={Styles.container}>
-         <h2 hidden={isHidden}>{errorMessage}</h2>
+         <Notice error={error} />
          <form action={createProduct} className={Styles.form}>
-            <input type="text" placeholder='Title' name='title' required style={errorStyle} />
-            <select name="cat" id="cat">
-               <option value="general">Choose a Category</option>
-               <option value="kitchen">Kitchen</option>
-               <option value="phone">Phone</option>
-               <option value="computer">Computer</option>
+            <input type="text" placeholder='Title' name='title' required maxLength={60} style={errorStyle} />
+            <select name="cat" id="cat" required defaultValue="">
+               <option value="" disabled>Choose a Category</option>
+               {PRODUCT_CATEGORIES.map((c) => <option key={c.value} value={c.value}>{c.label}</option>)}
             </select>
-            <input type="number" placeholder='Price' name='price' step=".01" required />
-            <input type="number" placeholder='Stock' name='stock' required />
+            <input type="number" placeholder='Price' name='price' step=".01" min="0" required />
+            <input type="number" placeholder='Stock' name='stock' min="0" step="1" required />
             <input type="text" placeholder='Color' name='color' required />
             <input type="text" placeholder='Size' name='size' required />
-            <textarea name="desc" id="desc" rows="10" placeholder='Description'></textarea>
-            <button type='submit'><span>Submit</span></button>
+            <textarea name="desc" id="desc" rows="10" placeholder='Description' maxLength={1000}></textarea>
+            <SubmitButton>Submit</SubmitButton>
          </form>
       </div>
    )

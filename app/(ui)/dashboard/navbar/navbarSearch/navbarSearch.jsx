@@ -1,89 +1,23 @@
 'use client'
 import Styles from './NavBarSearch.module.css';
-import { useState, useMemo } from 'react';
-import { MdSearch, MdDashboard, MdSupervisedUserCircle, MdShoppingBag, MdAttachMoney, MdWork, MdAnalytics, MdPeople, MdOutlineSettings, MdHelpCenter} from 'react-icons/md';
-import { useDebouncedCallback } from 'use-debounce';
+import { useState } from 'react';
+import { MdSearch } from 'react-icons/md';
 import { useRouter } from 'next/navigation';
+import { menuItems } from '@/lib/menu';
+
+const flatMenuItems = menuItems.flatMap((section) => section.list);
 
 const NavBarSearch = ({placeholder}) => {
 
     const [searchTerm, setSearchTerm] = useState('');
     const { push } = useRouter();
 
-    const menuItems = [
-        {
-          title: "Pages",
-          list: [
-            {
-              title: "Dashboard",
-              path: "/dashboard",
-              icon: <MdDashboard />,
-            },
-            {
-              title: "Users",
-              path: "/dashboard/users",
-              icon: <MdSupervisedUserCircle />,
-            },
-            {
-              title: "Products",
-              path: "/dashboard/products",
-              icon: <MdShoppingBag />,
-            },
-            {
-              title: "Transactions",
-              path: "/dashboard/transactions",
-              icon: <MdAttachMoney />,
-            },
-          ],
-        },
-        {
-          title: "Analytics",
-          list: [
-            {
-              title: "Revenue",
-              path: "/dashboard/revenue",
-              icon: <MdWork />,
-            },
-            {
-              title: "Reports",
-              path: "/dashboard/reports",
-              icon: <MdAnalytics />,
-            },
-            {
-              title: "Teams",
-              path: "/dashboard/teams",
-              icon: <MdPeople />,
-            },
-          ],
-        },
-        {
-          title: "User",
-          list: [
-            {
-              title: "Settings",
-              path: "/dashboard/settings",
-              icon: <MdOutlineSettings />,
-            },
-            {
-              title: "Help",
-              path: "/dashboard/help",
-              icon: <MdHelpCenter />,
-            },
-          ],
-        },
-      ];
-
-    const flatMenuItems = useMemo(() => menuItems.reduce((acc, section) => [...acc, ...section.list], []), []);
-
-    const handleSearch = useDebouncedCallback((event) => {
-        setSearchTerm(event.target.value.toLowerCase());
-    }, 300);
-   
-   
-    const filteredMenuItems = useMemo(() => flatMenuItems.filter(item => item.title.toLowerCase().includes(searchTerm)), [searchTerm, flatMenuItems]);
+    const term = searchTerm.trim().toLowerCase();
+    const filteredMenuItems = term ? flatMenuItems.filter((item) => item.title.toLowerCase().includes(term)) : [];
 
     // Navigate to the selected path
     const handleSelect = (path) => {
+        setSearchTerm('');
         push(path);
     };
 
@@ -94,12 +28,15 @@ const NavBarSearch = ({placeholder}) => {
                 type="text" 
                 placeholder={placeholder} 
                 className={Styles.input} 
-                onChange={handleSearch} 
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && filteredMenuItems[0] && handleSelect(filteredMenuItems[0].path)}
             />
-            {searchTerm && (
+            {term && (
                 <div className={Styles.suggestions}>
+                    {filteredMenuItems.length === 0 && <div className={Styles.suggestionItem}>No pages found</div>}
                     {filteredMenuItems.map((item) => (
-                    <div className={Styles.suggentionWrapper} key={item.path}> {/* Moved key here */}
+                    <div className={Styles.suggentionWrapper} key={item.path}>
                         <div className={Styles.suggentionIcon}>{item.icon}</div>
                         <div 
                             className={Styles.suggestionItem} 

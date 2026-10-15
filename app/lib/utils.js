@@ -15,6 +15,6 @@ export const connectToDB = async () => {
         return cached.conn;
     } catch (error) {
         cached.promise = null;
-        throw new Error(error);
+        throw error;
     }
 };

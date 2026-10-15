@@ -10,14 +10,15 @@ const Search = ({placeholder}) => {
    const { replace } = useRouter();
    const pathName = usePathname();
 
-   
-   
    const handleSearch = useDebouncedCallback((e) => {
       const params = new URLSearchParams(searchParams);
       params.set('page', '1');
-      
-      if (e.target.value) {
-         e.target.value.length > 2 && params.set('q', e.target.value);
+      params.delete('error');
+      params.delete('success');
+
+      const value = e.target.value.trim();
+      if (value) {
+         params.set('q', value);
       } else {
          params.delete('q');
       }
@@ -27,7 +28,13 @@ const Search = ({placeholder}) => {
    return (
       <div className={Styles.container}>
         <MdSearch size={20} />
-        <input type="text" placeholder={placeholder} className={Styles.input} onChange={handleSearch} />
+        <input
+           type="text"
+           placeholder={placeholder}
+           className={Styles.input}
+           defaultValue={searchParams.get('q') || ''}
+           onChange={handleSearch}
+        />
       </div>
    )
 };

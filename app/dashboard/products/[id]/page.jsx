@@ -1,44 +1,51 @@
 import Styles from '@/(ui)/dashboard/products/singleProduct/singleProductPage.module.css';
+import Notice from '@/(ui)/dashboard/common/notice';
+import SubmitButton from '@/(ui)/dashboard/common/submitButton';
 import Image from 'next/image';
+import { notFound } from 'next/navigation';
 import { getProduct } from '@/lib/data';
 import { updateProduct } from '@/lib/actions';
+import { PRODUCT_CATEGORIES } from '@/lib/constants';
 
-const SingleProductPage = async ({params}) => {
+const SingleProductPage = async ({params, searchParams}) => {
 
-    const { id } = params;
-    const product = await getProduct(id);
+    const product = await getProduct(params.id);
+    if (!product) notFound();
+
+    // Keep an existing category selectable even if it isn't in the standard list
+    const categories = PRODUCT_CATEGORIES.some((c) => c.value === product.category)
+        ? PRODUCT_CATEGORIES
+        : [...PRODUCT_CATEGORIES, { value: product.category, label: product.category }];
 
    return (
       <div className={Styles.container}>
         <div className={Styles.infoContainer}>
             <div className={Styles.imgContainer}>
-                <Image src={product.img || "/no-avatar.jpg"} alt='user image' fill />
+                <Image src={product.img || "/no-product.jpg"} alt={product.title} fill />
             </div>
-            <span>{product.username}</span>
+            <span>{product.title}</span>
         </div>
         <div className={Styles.formContainer}>
+            <Notice error={searchParams?.error} success={searchParams?.success} />
             <form action={updateProduct} className={Styles.form}>
-                <input type="text" hidden={true} value={product.id} name='id' />
-                <label>Title</label>
-                <input type="text" name='title' placeholder={product.title} />
-                <label>Price</label>
-                <input type="number" name='price' placeholder={product.price} />
-                <label>Stock</label>
-                <input type="number" name='stock' placeholder={product.stock} />
-                <label>Color</label>
-                <input type="text" name='color' placeholder={product.color} />
-                <label>Size</label>
-                <input type="text" name='size' placeholder={product.size} />
-                <label>Category</label>
-                <select name="cat" id="cat" required>
-                    <option value={"none"}>{product.category.charAt(0).toUpperCase() + product.category.slice(1)}</option>
-                    <option value="kitchen">Kitchen</option>
-                    <option value="computers">Computers</option>
-                    <option value="phone">Phone</option>
+                <input type="hidden" value={product.id} name='id' />
+                <label htmlFor="title">Title</label>
+                <input type="text" id="title" name='title' defaultValue={product.title} required maxLength={60} />
+                <label htmlFor="price">Price</label>
+                <input type="number" id="price" name='price' defaultValue={product.price} step=".01" min="0" required />
+                <label htmlFor="stock">Stock</label>
+                <input type="number" id="stock" name='stock' defaultValue={product.stock} min="0" step="1" required />
+                <label htmlFor="color">Color</label>
+                <input type="text" id="color" name='color' defaultValue={product.color || ""} />
+                <label htmlFor="size">Size</label>
+                <input type="text" id="size" name='size' defaultValue={product.size || ""} />
+                <label htmlFor="cat">Category</label>
+                <select name="cat" id="cat" required defaultValue={product.category}>
+                    {categories.map((c) => <option key={c.value} value={c.value}>{c.label}</option>)}
                 </select>
-                <label>Description</label>
-                <textarea name="desc" id="desc" rows="10" placeholder={product.desc || "No Description"}></textarea>
-                <button type='submit'><span>Update</span></button>
+                <label htmlFor="desc">Description</label>
+                <textarea name="desc" id="desc" rows="10" defaultValue={product.desc || ""} placeholder="No Description" maxLength={1000}></textarea>
+                <SubmitButton>Update</SubmitButton>
             </form>
         </div>
       </div>

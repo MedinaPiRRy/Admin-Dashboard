@@ -29,8 +29,6 @@
     background-color: #afd6ee75;
     text-decoration-color: rgba(255, 255, 255, 1);
     font-weight: 600;
-    cursor: pointer;
-    scale: 1.1;
 }
 
 .user{
@@ -79,4 +77,17 @@
 .table thead td:hover{
     text-decoration-color: rgba(255, 255, 255, 1);
     cursor: pointer;
+}
+
+.empty{
+    text-align: center;
+    color: var(--textSoft);
+    padding: 30px 10px !important;
+}
+
+.viewAll{
+    display: inline-block;
+    margin-top: 16px;
+    color: var(--textSoft);
+    text-decoration: underline;
 }

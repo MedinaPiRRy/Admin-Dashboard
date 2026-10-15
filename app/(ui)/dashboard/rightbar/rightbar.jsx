@@ -1,4 +1,5 @@
 import { MdPlayCircleFilled } from 'react-icons/md';
+import Link from 'next/link';
 import Styles from './rightbar.module.css';
 import Image from 'next/image';
 
@@ -7,41 +8,37 @@ const RightBar = () => {
       <div className={Styles.container}>
          <div className={Styles.item}>
             <div className={Styles.bgContainer}>
-               <Image src="/astronaut.png" alt="space ship" fill className={Styles.bg} />
+               <Image src="/astronaut.png" alt="" fill className={Styles.bg} />
             </div>
             <div className={Styles.text}>
-                  <span className={Styles.notification}>🔥 Available Now</span>
+                  <span className={Styles.notification}>👋 Getting started</span>
                <h3 className={Styles.title}>
-                  How to use the new version of the admin dashboard?
+                  New here? The help page walks through every section of the dashboard.
                </h3>
-                  <span className={Styles.subtitle}>Takes 4 minutes to learn</span>
                <p className={Styles.desc}>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Reprehenderit eius libero perspiciatis recusandae possimus.
+                  Add users and products, search and page through the lists, and watch the
+                  numbers on this page update.
                </p>
-               <button className={Styles.button}>
+               <Link href="/dashboard/help" className={Styles.button}>
                   <MdPlayCircleFilled />
-                  Watch
-               </button>
+                  Open help
+               </Link>
             </div>
          </div>
 
          <div className={Styles.item}>
             <div className={Styles.text}>
-                  <span className={Styles.notification}>🚀 Coming Soon</span>
+                  <span className={Styles.notification}>📊 Analytics</span>
                <h3 className={Styles.title}>
-                  New server actions are available, partial pre-rendering is coming
-                  up!
+                  See revenue by month, inventory value and low-stock items.
                </h3>
-                  <span className={Styles.subtitle}>Takes 4 minutes to learn</span>
                <p className={Styles.desc}>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Reprehenderit eius libero perspiciatis recusandae possimus.
+                  The Revenue and Reports pages are calculated live from the database.
                </p>
-               <button className={Styles.button}>
+               <Link href="/dashboard/reports" className={Styles.button}>
                   <MdPlayCircleFilled />
-                  Learn
-               </button>
+                  View reports
+               </Link>
             </div>
          </div>
       </div>

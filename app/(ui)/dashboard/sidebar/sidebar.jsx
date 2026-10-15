@@ -2,92 +2,21 @@ import { auth, signOut } from '@/../auth.js';
 import MenuLink from './menuLink/menuLink';
 import Styles from './sidebar.module.css';
 import Image from 'next/image';
-import { 
-    MdDashboard, 
-    MdSupervisedUserCircle, 
-    MdShoppingBag, 
-    MdAttachMoney, 
-    MdWork, 
-    MdAnalytics, 
-    MdPeople, 
-    MdOutlineSettings, 
-    MdHelpCenter, 
-    MdLogout} from 'react-icons/md';
-
-const menuItems = [
-    {
-      title: "Pages",
-      list: [
-        {
-          title: "Dashboard",
-          path: "/dashboard",
-          icon: <MdDashboard />,
-        },
-        {
-          title: "Users",
-          path: "/dashboard/users",
-          icon: <MdSupervisedUserCircle />,
-        },
-        {
-          title: "Products",
-          path: "/dashboard/products",
-          icon: <MdShoppingBag />,
-        },
-        {
-          title: "Transactions",
-          path: "/dashboard/transactions",
-          icon: <MdAttachMoney />,
-        },
-      ],
-    },
-    {
-      title: "Analytics",
-      list: [
-        {
-          title: "Revenue",
-          path: "/dashboard/revenue",
-          icon: <MdWork />,
-        },
-        {
-          title: "Reports",
-          path: "/dashboard/reports",
-          icon: <MdAnalytics />,
-        },
-        {
-          title: "Teams",
-          path: "/dashboard/teams",
-          icon: <MdPeople />,
-        },
-      ],
-    },
-    {
-      title: "User",
-      list: [
-        {
-          title: "Settings",
-          path: "/dashboard/settings",
-          icon: <MdOutlineSettings />,
-        },
-        {
-          title: "Help",
-          path: "/dashboard/help",
-          icon: <MdHelpCenter />,
-        },
-      ],
-    },
-  ];
+import { MdLogout } from 'react-icons/md';
+import { menuItems } from '@/lib/menu';
 
 const Sidebar = async () => {
 
   const session = await auth();
+  const user = session?.user;
 
     return (
         <div className={Styles.container}>
             <div className={Styles.user}>
-                <Image className={Styles.userImg} src={session.user.img || "/no-avatar.jpg"} alt="" width="50" height="50"></Image>
+                <Image className={Styles.userImg} src={user?.img || "/no-avatar.jpg"} alt="" width="50" height="50"></Image>
                 <div className={Styles.userDetails}>
-                    <span className={Styles.userName}>{session.user.username}</span>
-                    <span className={Styles.userTitle}>{session.user.isAdmin ? "Administrator" : "User"}</span>
+                    <span className={Styles.userName}>{user?.username}</span>
+                    <span className={Styles.userTitle}>{user?.isAdmin ? "Administrator" : "User"}</span>
                 </div>
             </div>
             <ul className={Styles.list}>
@@ -103,7 +32,7 @@ const Sidebar = async () => {
             </ul>
             <form action={async () => {
               'use server';
-              await signOut();
+              await signOut({ redirectTo: '/login' });
             }}>
               <button className={Styles.logout}>
                 <MdLogout size={20} color="#fff" />

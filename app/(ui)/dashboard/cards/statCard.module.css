@@ -69,3 +69,27 @@
 .negative{
     color: red;
 }
+
+.titleLine{
+    align-items: center;
+}
+
+.backList{
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 10px 20px 0 20px;
+    font-size: 14px;
+}
+
+.backRow{
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    color: var(--textSoft);
+}
+
+.backRow strong{
+    color: var(--text);
+    font-weight: 500;
+}
