@@ -10,7 +10,7 @@ export const getUsers = async (q,page) => {
     const ITEM_PER_PAGE = 5;
 
     try {
-        connectToDB();
+        await connectToDB();
         const count = await User.find({username: {$regex: regex}}).count();
         const users = await User.find({username: {$regex: regex}}).limit(ITEM_PER_PAGE).skip((page - 1) * ITEM_PER_PAGE);
         return {users, count};
@@ -22,7 +22,7 @@ export const getUsers = async (q,page) => {
 
 export const getUser = async (id) => {
     try {
-        connectToDB();
+        await connectToDB();
         const user = await User.findById(id);
         return user;
     } catch (error) {
@@ -40,7 +40,7 @@ export const getProducts = async (q, page) => {
     const ITEM_PER_PAGE = 5;
 
     try {
-        connectToDB();
+        await connectToDB();
         const count = await Product.find({title: {$regex: regex}}).count();
         const products = await Product.find({title: {$regex: regex}}).limit(ITEM_PER_PAGE).skip((page - 1) * ITEM_PER_PAGE);
         return {products, count};
@@ -52,7 +52,7 @@ export const getProducts = async (q, page) => {
 
 export const getProduct = async (id) => {
     try {
-        connectToDB();
+        await connectToDB();
         const product = await Product.findById(id);
         return product;
     } catch (error) {

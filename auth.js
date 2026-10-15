@@ -9,7 +9,7 @@ import { redirect } from "next/dist/server/api-utils";
 
 const login = async (credentials) => {
     try {
-      connectToDB();
+      await connectToDB();
       const user = await User.findOne({ username: credentials.username });
   
       if (!user) throw new Error("Wrong credentials!");
