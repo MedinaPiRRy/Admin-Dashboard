@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Admin Dashboard
 
-## Getting Started
+A full-stack admin dashboard built with **Next.js 14 (App Router)**, **MongoDB/Mongoose** and **NextAuth v5**. It lets an administrator log in, view business metrics, and manage users and products (create, search, paginate, edit, delete).
 
-First, run the development server:
+> **Recruiters:** see [INSTRUCTIONS.md](./INSTRUCTIONS.md) for the demo login and a guided tour.
+
+## What the app does
+
+- **Authentication** - credentials login (bcrypt-hashed passwords, JWT sessions). All `/dashboard` routes are protected by middleware and redirect to `/login` when signed out.
+- **Dashboard overview** - summary cards, a transactions table, a Recharts chart and a side panel.
+- **User management** - searchable, paginated list; add, edit and delete users; admin/active flags.
+- **Product management** - searchable, paginated list; add, edit and delete products (price, stock, category, color, size).
+- **Server Actions** for all mutations, with form validation and duplicate detection.
+
+## Tech stack
+
+Next.js 14 · React 18 · MongoDB + Mongoose · NextAuth (Auth.js) v5 · bcrypt · Recharts · CSS Modules / Tailwind · Deployed on Vercel
+
+## Run locally
 
 ```bash
+npm install
+cp .env.example .env.local   # then fill in the values
+npm run seed                 # loads demo users and products
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Environment variables
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+| Variable      | Description                                                                 |
+| ------------- | --------------------------------------------------------------------------- |
+| `DB_URL`      | MongoDB connection string (a free MongoDB Atlas cluster works), incl. a DB name |
+| `AUTH_SECRET` | Random string used to sign sessions. Generate with `openssl rand -base64 32`  |
 
-## Learn More
+Set the same two variables in Vercel under **Project Settings -> Environment Variables**, then redeploy.
 
-To learn more about Next.js, take a look at the following resources:
+## Project structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```
+app/
+  dashboard/        Protected pages (overview, users, products)
+  login/            Login page
+  lib/              Mongoose models, data fetching, server actions, DB connection
+  (ui)/             Presentational components and CSS modules
+auth.js             NextAuth configuration (credentials provider)
+middleware.js       Route protection
+scripts/seed.mjs    Demo data seeder
+```

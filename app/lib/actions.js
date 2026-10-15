@@ -24,7 +24,7 @@ export const createUser = async (formData) => {
         redirect('/dashboard/users/add?error=passwordMismatch');
     } else {
         try {
-            connectToDB();
+            await connectToDB();
 
             const salt = await bcrypt.genSalt(10);
             const hashedPassword = await bcrypt.hash(password, salt);
@@ -79,7 +79,7 @@ export const updateUser = async (formData) => {
     const newPass = hashedPassword || null;
 
     try {
-        connectToDB();
+        await connectToDB();
         const updatedFields = {
             username,
             email,
@@ -111,7 +111,7 @@ export const deleteUser = async (formData) => {
     const { id } = Object.fromEntries(formData);
 
     try {
-        connectToDB();
+        await connectToDB();
         const user = await User.findByIdAndDelete(id);
     } catch (error) {
         console.log("Failed to delete user");
@@ -139,7 +139,7 @@ export const createProduct = async (formData) => {
     } else {var newDesc = desc;}
 
     try {
-        connectToDB();
+        await connectToDB();
         const newProduct = new Product({
             title,
             category: cat,
@@ -178,7 +178,7 @@ export const updateProduct = async (formData) => {
     const updatedCat = newCat;
 
     try {
-        connectToDB();
+        await connectToDB();
 
         const updatedFields = {
             title,
@@ -211,7 +211,7 @@ export const deleteProduct = async (formData) => {
     const { id } = Object.fromEntries(formData);
 
     try {
-        connectToDB();
+        await connectToDB();
         const product = await Product.findByIdAndDelete(id);
     } catch (error) {
         console.log("Failed to delete product");
