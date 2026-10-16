@@ -7,7 +7,8 @@ import { getOrders } from '@/lib/data';
 import { ORDER_STATUSES } from '@/lib/constants';
 import { capitalize } from '@/lib/format';
 
-const TransactionsPage = async ({ searchParams }) => {
+const TransactionsPage = async (props) => {
+   const searchParams = await props.searchParams;
    const q = searchParams?.q || "";
    const status = ORDER_STATUSES.includes(searchParams?.status) ? searchParams.status : "";
    const page = searchParams?.page || "1";

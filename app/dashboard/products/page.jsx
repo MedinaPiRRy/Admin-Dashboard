@@ -11,7 +11,9 @@ import { deleteProduct } from '@/lib/actions';
 import { formatCurrency, capitalize } from '@/lib/format';
 import { LOW_STOCK_THRESHOLD } from '@/lib/constants';
 
-const ProductsPage = async ({searchParams}) => {
+const ProductsPage = async (props) => {
+
+   const searchParams = await props.searchParams;
    const q = searchParams?.q || "";
    const page = searchParams?.page || "1";
    const { products, count } = await getProducts(q, page);

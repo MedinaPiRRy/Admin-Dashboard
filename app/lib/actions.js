@@ -232,8 +232,8 @@ export const authenticate = async (prevState, formData) => {
     } catch (error) {
         // A successful sign-in finishes by throwing a redirect, which must be re-thrown.
         if (typeof error?.digest === "string" && error.digest.startsWith("NEXT_REDIRECT")) throw error;
-        // This NextAuth beta reports bad credentials as an Error whose message is "CredentialsSignin".
-        if (String(error?.message).includes("CredentialsSignin")) return "Wrong credentials!";
+        // Bad credentials: newer betas set `error.type`, older ones only put it in the message.
+        if (error?.type === "CredentialsSignin" || String(error?.message).includes("CredentialsSignin")) return "Wrong credentials!";
         console.error("Failed to authenticate user", error);
         return "Something went wrong. Please try again.";
     }

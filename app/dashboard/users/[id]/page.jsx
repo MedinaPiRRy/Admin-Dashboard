@@ -7,8 +7,9 @@ import { getUser } from '@/lib/data';
 import { updateUser } from '@/lib/actions';
 import { PROTECTED_USERNAME } from '@/lib/constants';
 
-const SingleUserPage = async ({params, searchParams}) => {
+const SingleUserPage = async (props) => {
 
+    const [params, searchParams] = await Promise.all([props.params, props.searchParams]);
     const user = await getUser(params.id);
     if (!user) notFound();
 

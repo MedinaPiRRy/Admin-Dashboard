@@ -1,6 +1,6 @@
 # Admin Dashboard
 
-A full-stack admin dashboard built with **Next.js 14 (App Router)**, **MongoDB / Mongoose** and **NextAuth v5**. An administrator logs in to see live business metrics and to manage users, products and orders.
+A full-stack admin dashboard built with **Next.js 15 (App Router)**, **MongoDB / Mongoose** and **NextAuth v5**. An administrator logs in to see live business metrics and to manage users, products and orders.
 
 > **Recruiters:** open [INSTRUCTIONS.md](./INSTRUCTIONS.md) for the demo login and a step-by-step tour.
 
@@ -30,7 +30,7 @@ All numbers come from MongoDB aggregations; nothing on the dashboard is hard-cod
 
 ## Tech stack
 
-Next.js 14 · React 18 · MongoDB + Mongoose · NextAuth (Auth.js) v5 beta · bcrypt · Recharts · CSS Modules + Tailwind · deployed on Vercel
+Next.js 15 · React 19 · MongoDB + Mongoose · NextAuth (Auth.js) v5 beta · bcrypt · Recharts · CSS Modules + Tailwind CSS 4 · deployed on Vercel
 
 ## Run locally
 

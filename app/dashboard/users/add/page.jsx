@@ -3,7 +3,8 @@ import Notice from '@/(ui)/dashboard/common/notice';
 import SubmitButton from '@/(ui)/dashboard/common/submitButton';
 import { createUser } from '@/lib/actions';
 
-const AddUsersPage = ({ searchParams }) => {
+const AddUsersPage = async (props) => {
+   const searchParams = await props.searchParams;
    const error = searchParams?.error;
    const invalid = (...codes) => (codes.includes(error) ? { borderColor: 'red' } : {});
 

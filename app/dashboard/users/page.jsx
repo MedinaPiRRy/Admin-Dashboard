@@ -10,7 +10,9 @@ import { getUsers } from '@/lib/data';
 import { deleteUser } from '@/lib/actions';
 import { formatDate } from '@/lib/format';
 
-const UsersPage = async ({searchParams}) => {
+const UsersPage = async (props) => {
+
+   const searchParams = await props.searchParams;
 
    const q = searchParams?.q || "";
    const page = searchParams?.page || "1";

@@ -1,7 +1,8 @@
 'use client'
 import { authenticate } from '@/lib/actions';
 import Styles from './LoginForm.module.css';
-import { useFormState, useFormStatus } from 'react-dom';
+import { useActionState } from 'react';
+import { useFormStatus } from 'react-dom';
 
 const LoginButton = () => {
     const { pending } = useFormStatus();
@@ -15,7 +16,7 @@ const LoginButton = () => {
 
 const LoginForm = () => {
 
-    const [state, formAction] = useFormState(authenticate, undefined);
+    const [state, formAction] = useActionState(authenticate, undefined);
     const error = state ? { borderColor: 'red' } : {};
 
    return (
