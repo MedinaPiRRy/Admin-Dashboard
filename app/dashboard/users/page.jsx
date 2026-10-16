@@ -1,32 +1,23 @@
 import Search from '@/(ui)/dashboard/search/search';
 import Styles from '@/(ui)/dashboard/users/users.module.css';
 import Pagination from '@/(ui)/dashboard/pagination/pagination';
+import Common from '@/(ui)/dashboard/common/common.module.css';
 import Notice from '@/(ui)/dashboard/common/notice';
 import EmptyRow from '@/(ui)/dashboard/common/emptyRow';
 import DeleteButton from '@/(ui)/dashboard/common/deleteButton';
+import { Suspense } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { getUsers } from '@/lib/data';
 import { deleteUser } from '@/lib/actions';
 import { formatDate } from '@/lib/format';
 
-const UsersPage = async (props) => {
-
-   const searchParams = await props.searchParams;
-
-   const q = searchParams?.q || "";
-   const page = searchParams?.page || "1";
+// Loaded inside <Suspense> so the page shell renders immediately and the table shows a loading state
+const UsersTable = async ({ q, page }) => {
    const { users, count } = await getUsers(q, page);
 
    return (
-      <div className={Styles.container}>
-         <Notice error={searchParams?.error} />
-         <div className={Styles.top}>
-            <Search placeholder="Search by username or email" />
-            <Link href="/dashboard/users/add">
-               <button className={Styles.addButton}>Add New</button>
-            </Link>
-         </div>
+      <>
             <table className={Styles.table}>
                <thead>
                   <tr>
@@ -56,8 +47,8 @@ const UsersPage = async (props) => {
                         <td>{user.isActive ? "Active" : "Inactive"}</td>
                         <td>
                            <div className={Styles.buttons}>
-                              <Link href={`/dashboard/users/${user.id}`}>
-                                 <button className={`${Styles.button} ${Styles.view}`}>View</button>
+                              <Link href={`/dashboard/users/${user.id}`} className={`${Styles.button} ${Styles.view}`}>
+                                 View
                               </Link>
                               <form action={deleteUser}>
                                  <input type="hidden" name='id' value={user.id} />
@@ -70,6 +61,28 @@ const UsersPage = async (props) => {
                </tbody>
             </table>
             <Pagination count={count} />
+      </>
+   )
+};
+
+const UsersPage = async (props) => {
+
+   const searchParams = await props.searchParams;
+   const q = searchParams?.q || "";
+   const page = searchParams?.page || "1";
+
+   return (
+      <div className={Styles.container}>
+         <Notice error={searchParams?.error} />
+         <div className={Styles.top}>
+            <Search placeholder="Search by username or email" />
+            <Link href="/dashboard/users/add">
+               <button className={Styles.addButton}>Add New</button>
+            </Link>
+         </div>
+         <Suspense key={`${q}|${page}`} fallback={<p className={Common.loading} role="status">Loading...</p>}>
+            <UsersTable q={q} page={page} />
+         </Suspense>
       </div>
    )
 };
