@@ -9,7 +9,7 @@ Open the live demo (the Vercel link on the repo page) and sign in:
 | Username | `demo_recruiter` |
 | Password | `Demo1234!`      |
 
-This is a sample account with fake data, created for reviewing the project. The login page also shows these credentials. Other seeded users (e.g. `john_doe`, `leah_akai`) use the same password; `miguel_angel` and `aleks_manov` are *inactive* and can't sign in.
+This is a sample account with fake data, created for reviewing the project. The login page also shows these credentials. Other seeded users (e.g. `john_doe`, `leah_akai`) use the same password. Inactive users such as `miguel_angel`, `kevin_oconnor` and `grace_mensah` can't sign in.
 
 The `demo_recruiter` account is **read-only**: it can't be edited, deactivated or deleted, so the demo always stays usable. Everything else can be changed freely.
 
@@ -17,7 +17,7 @@ The `demo_recruiter` account is **read-only**: it can't be edited, deactivated o
 
 1. **Dashboard** - Three cards show total users, completed revenue and products, with real week-over-week change. *Hover a card* to flip it for more detail. Below are the latest transactions and a chart of orders and revenue for the last 7 days.
 2. **Users** (sidebar → Users)
-   - Type in the search box to filter by username or email; the list shows 5 per page, so use **Next / Previous**.
+   - Type in the search box to filter by username or email (try `sara`); the list shows 5 per page across 7 pages, so use **Next / Previous**.
    - Click **Add New**, fill in the form (password at least 8 characters, both password fields must match) and submit. Try submitting a mismatching password or an existing username to see the error messages.
    - Click **View** on the new user, change *Is Active?* to NO (or the role) and **Update**. A "Changes saved" message confirms it; the list now shows the user as Inactive.
    - Click **Delete** and confirm. (Deleting `demo_recruiter` is blocked on purpose.)
@@ -36,7 +36,7 @@ The `demo_recruiter` account is **read-only**: it can't be edited, deactivated o
 
 1. `npm install`
 2. `cp .env.example .env.local` and set `DB_URL` (MongoDB URI incl. database name) and `AUTH_SECRET`.
-3. `npm run seed` - inserts the sample users, products and orders. This **clears** the `users`, `products` and `orders` collections first.
+3. `npm run seed` - inserts 32 sample users, 37 products and about 285 orders. This **clears** the `users`, `products` and `orders` collections first.
 4. `npm run dev` and open http://localhost:3000.
 
 ## 4. Deploying to Vercel
@@ -45,7 +45,7 @@ The `demo_recruiter` account is **read-only**: it can't be edited, deactivated o
 2. In MongoDB Atlas, allow network access from anywhere (`0.0.0.0/0`) so Vercel's changing IPs can connect.
 3. Run `npm run seed` once from your machine with `DB_URL` pointing at the same database.
 
-To reset the demo data at any time, run `npm run seed` again.
+To reset the demo data at any time, run `npm run seed` again. Seeded dates are relative to when you run it, so re-run it before sharing the demo if it has been a while.
 
 ## Troubleshooting
 

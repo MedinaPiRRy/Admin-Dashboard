@@ -6,25 +6,31 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint .",
     "seed": "node --env-file-if-exists=.env.local --env-file-if-exists=.env scripts/seed.mjs"
   },
   "dependencies": {
-    "bcrypt": "^5.1.1",
-    "mongoose": "^8.2.3",
-    "next": "14.1.2",
-    "next-auth": "^5.0.0-beta.3",
-    "react": "^18",
-    "react-dom": "^18",
+    "bcrypt": "^6.0.0",
+    "mongoose": "^8.24.5",
+    "next": "^15.5.28",
+    "next-auth": "^5.0.0-beta.32",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
     "react-icons": "^4.11.0",
-    "recharts": "^2.9.0",
+    "recharts": "^3.10.1",
     "use-debounce": "^9.0.4"
   },
   "devDependencies": {
-    "autoprefixer": "^10.0.1",
-    "eslint": "^8.57.1",
-    "eslint-config-next": "^14.1.2",
+    "@tailwindcss/postcss": "^4.3.3",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^16.4.2",
     "postcss": "^8",
-    "tailwindcss": "^3.3.0"
+    "tailwindcss": "^4.3.3"
+  },
+  "overrides": {
+    "next": {
+      "postcss": "^8.5.30"
+    },
+    "postcss-selector-parser": "^7.1.6"
   }
 }

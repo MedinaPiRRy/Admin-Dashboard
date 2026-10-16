@@ -1,8 +1,10 @@
+import { Suspense } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Styles from '@/(ui)/dashboard/products/products.module.css';
 import Search from '@/(ui)/dashboard/search/search';
 import Pagination from '@/(ui)/dashboard/pagination/pagination';
+import Common from '@/(ui)/dashboard/common/common.module.css';
 import Notice from '@/(ui)/dashboard/common/notice';
 import EmptyRow from '@/(ui)/dashboard/common/emptyRow';
 import DeleteButton from '@/(ui)/dashboard/common/deleteButton';
@@ -11,20 +13,12 @@ import { deleteProduct } from '@/lib/actions';
 import { formatCurrency, capitalize } from '@/lib/format';
 import { LOW_STOCK_THRESHOLD } from '@/lib/constants';
 
-const ProductsPage = async ({searchParams}) => {
-   const q = searchParams?.q || "";
-   const page = searchParams?.page || "1";
+// Loaded inside <Suspense> so the page shell renders immediately and the table shows a loading state
+const ProductsTable = async ({ q, page }) => {
    const { products, count } = await getProducts(q, page);
 
    return (
-      <div className={Styles.container}>
-         <Notice error={searchParams?.error} />
-         <div className={Styles.top}>
-            <Search placeholder="Search by product title" />
-            <Link href="/dashboard/products/add">
-               <button className={Styles.addButton}>Add New</button>
-            </Link>
-         </div>
+      <>
             <table className={Styles.table}>
                <thead>
                   <tr>
@@ -71,6 +65,27 @@ const ProductsPage = async ({searchParams}) => {
                </tbody>
             </table>
             <Pagination count={count} />
+      </>
+   )
+};
+
+const ProductsPage = async (props) => {
+   const searchParams = await props.searchParams;
+   const q = searchParams?.q || "";
+   const page = searchParams?.page || "1";
+
+   return (
+      <div className={Styles.container}>
+         <Notice error={searchParams?.error} />
+         <div className={Styles.top}>
+            <Search placeholder="Search by product title" />
+            <Link href="/dashboard/products/add">
+               <button className={Styles.addButton}>Add New</button>
+            </Link>
+         </div>
+         <Suspense key={`${q}|${page}`} fallback={<p className={Common.loading} role="status">Loading...</p>}>
+            <ProductsTable q={q} page={page} />
+         </Suspense>
       </div>
    )
 };

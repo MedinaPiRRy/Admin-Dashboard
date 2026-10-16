@@ -7,8 +7,9 @@ import { getProduct } from '@/lib/data';
 import { updateProduct } from '@/lib/actions';
 import { PRODUCT_CATEGORIES } from '@/lib/constants';
 
-const SingleProductPage = async ({params, searchParams}) => {
+const SingleProductPage = async (props) => {
 
+    const [params, searchParams] = await Promise.all([props.params, props.searchParams]);
     const product = await getProduct(params.id);
     if (!product) notFound();
 

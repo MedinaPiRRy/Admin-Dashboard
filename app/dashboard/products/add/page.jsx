@@ -4,7 +4,8 @@ import SubmitButton from '@/(ui)/dashboard/common/submitButton';
 import { createProduct } from '@/lib/actions';
 import { PRODUCT_CATEGORIES } from '@/lib/constants';
 
-const AddProductsPage = ({ searchParams }) => {
+const AddProductsPage = async (props) => {
+   const searchParams = await props.searchParams;
    const error = searchParams?.error;
    const errorStyle = error === 'duplicateProduct' ? { borderColor: 'red' } : {};
 

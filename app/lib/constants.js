@@ -10,6 +10,9 @@ export const PRODUCT_CATEGORIES = [
   { value: "kitchen", label: "Kitchen" },
   { value: "clothes", label: "Clothes" },
   { value: "electronics", label: "Electronics" },
+  { value: "home", label: "Home" },
+  { value: "sports", label: "Sports" },
+  { value: "books", label: "Books" },
 ];
 
 export const ORDER_STATUSES = ["pending", "done", "cancelled"];
