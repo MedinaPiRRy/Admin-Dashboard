@@ -43,7 +43,7 @@ npm run seed                 # loads demo users, products and orders
 npm run dev                  # http://localhost:3000
 ```
 
-Other scripts: `npm run lint`, `npm run build`, `npm start`.
+Other scripts: `npm run lint` (ESLint), `npm run build`, `npm start`.
 
 ## Environment variables
 
@@ -57,7 +57,9 @@ On Vercel, add `DB_URL` and `AUTH_SECRET` under **Project Settings → Environme
 
 ## Seed data
 
-`npm run seed` **deletes** the `users`, `products` and `orders` collections in the database that `DB_URL` points to, then inserts 10 users, 9 products and 90 orders (dated over the last ~6 months). The seed is deterministic, so every run produces the same orders. Don't point it at a database you want to keep.
+`npm run seed` **deletes** the `users`, `products` and `orders` collections in the database that `DB_URL` points to, then inserts 32 users (7 administrators), 37 products in 8 categories and about 285 orders over the last six months, with generated avatars and product images (`public/avatars`, `public/products`). The data is deterministic, so every run produces the same dataset, but dates are relative to the moment you run it, so **re-run the seed before sharing the demo** if it has been a while (the "last 7 days" widgets look at the real calendar). Don't point it at a database you want to keep.
+
+The data lives in `scripts/sample-data.mjs`; `node scripts/generate-images.mjs` regenerates the SVG images from it.
 
 ## Project structure
 
@@ -78,4 +80,6 @@ app/
 auth.js               NextAuth config (credentials provider)
 middleware.js         Route protection
 scripts/seed.mjs      Demo data seeder
+  sample-data.mjs     The demo users, products and order generator
+  generate-images.mjs Generates the SVG avatars / product images in public/
 ```
