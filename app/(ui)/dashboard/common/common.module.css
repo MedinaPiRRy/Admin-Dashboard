@@ -1,0 +1,53 @@
+.notice{
+    padding: 12px 16px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+.error{
+    background-color: rgba(220, 20, 60, 0.2);
+    border: 1px solid crimson;
+}
+
+.success{
+    background-color: rgba(0, 128, 128, 0.25);
+    border: 1px solid teal;
+}
+
+.empty{
+    text-align: center;
+    color: var(--textSoft);
+    padding: 30px 10px !important;
+}
+
+.errorView{
+    background-color: var(--bgSoft);
+    padding: 40px;
+    border-radius: 10px;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.errorView button, .errorView a{
+    padding: 10px 16px;
+    background-color: #5d57c9;
+    color: var(--text);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.loading{
+    margin-top: 40px;
+    text-align: center;
+    color: var(--textSoft);
+}
+
+.submit:disabled{
+    opacity: 0.6;
+    cursor: wait;
+}

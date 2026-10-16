@@ -1,51 +1,31 @@
-'use client'
 import Styles from '@/(ui)/dashboard/users/add/add.module.css';
+import Notice from '@/(ui)/dashboard/common/notice';
+import SubmitButton from '@/(ui)/dashboard/common/submitButton';
 import { createUser } from '@/lib/actions';
-import { useSearchParams } from 'next/navigation';
 
-const AddUsersPage = () => {
-
-   const searchParams = new URLSearchParams(useSearchParams());
-   const error = searchParams.get('error') || {};
-
-   // Define a style for the error state
-   const errorStyleP = error === 'passwordMismatch' ? { borderColor: 'red' }: {};
-   const errorStyleU = error === 'duplicateUser' ? { borderColor: 'red' }: {};
-
-   if (error === 'passwordMismatch') {
-      var isHidden = false;
-      var errorMessage = 'Passwords do not match';
-   } else {
-      var isHidden = true;
-   }
-   if (error === 'duplicateUser') {
-      var isHidden = false;
-      var errorMessage = 'User already exists';
-   } else {
-      var isHidden = true;
-   }
+const AddUsersPage = ({ searchParams }) => {
+   const error = searchParams?.error;
+   const invalid = (...codes) => (codes.includes(error) ? { borderColor: 'red' } : {});
 
    return (
       <div className={Styles.container}>
-            <h2 hidden={isHidden}>{errorMessage}</h2>
+         <Notice error={error} />
          <form action={createUser} className={Styles.form}>
-            <input type="text" placeholder='Username' name='username' requireds style={errorStyleU} />
-            <input type="email" placeholder='Email' name='email' required style={errorStyleU} />
-               <input type="password" placeholder='Password' name='password' required style={errorStyleP} />
-            <input type="password" placeholder='Confirm Password' name='retype' required style={errorStyleP} />
-            <input type="number" placeholder='Phone Number' name='phone' />
-            <select name="isAdmin" id="isAdmin" required>
-               <option value={false}>Is Admin?</option>
-               <option value={true}>YES</option>
-               <option value={false}>NO</option>
+            <input type="text" placeholder='Username' name='username' required minLength={3} maxLength={30} style={invalid('duplicateUser')} />
+            <input type="email" placeholder='Email' name='email' required style={invalid('duplicateUser')} />
+            <input type="password" placeholder='Password (min. 8 characters)' name='password' required minLength={8} style={invalid('passwordMismatch', 'passwordShort')} />
+            <input type="password" placeholder='Confirm Password' name='retype' required minLength={8} style={invalid('passwordMismatch')} />
+            <input type="tel" placeholder='Phone Number (10-15 digits)' name='phone' inputMode="tel" pattern="[0-9]{10,15}" title="10 to 15 digits" />
+            <select name="isAdmin" defaultValue="false" aria-label="Role">
+               <option value="false">Role: Client</option>
+               <option value="true">Role: Admin</option>
             </select>
-            <select name="isActive" id="isActive" required>
-               <option value={false}>Is Active?</option>
-               <option value={true}>YES</option>
-               <option value={false}>NO</option>
+            <select name="isActive" defaultValue="true" aria-label="Status">
+               <option value="true">Status: Active</option>
+               <option value="false">Status: Inactive</option>
             </select>
-            <input type="text" placeholder='Address' name='address' />
-            <button type='submit'><span>Submit</span></button>
+            <input type="text" placeholder='Address' name='address' maxLength={200} />
+            <SubmitButton>Submit</SubmitButton>
          </form>
       </div>
    )

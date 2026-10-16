@@ -1,6 +1,7 @@
 'use client'
 import Styles from './pagination.module.css';
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
+import { ITEMS_PER_PAGE } from '@/lib/constants';
 
 const Pagination = ({count}) => {
 
@@ -8,24 +9,25 @@ const Pagination = ({count}) => {
    const { replace } = useRouter();
    const pathName = usePathname();
 
-   const page = searchParams.get("page") || "1";
+   const parsedPage = parseInt(searchParams.get("page"), 10);
+   const page = Number.isNaN(parsedPage) || parsedPage < 1 ? 1 : parsedPage;
+   const totalPages = Math.max(1, Math.ceil(count / ITEMS_PER_PAGE));
 
-   const params = new URLSearchParams(searchParams);
-   const ITEM_PER_PAGE = 5;
-
-   const hasPrev = ITEM_PER_PAGE * (parseInt(page) - 1) > 0;
-   const hasNext = ITEM_PER_PAGE * (parseInt(page) - 1) + ITEM_PER_PAGE < count;
+   const hasPrev = page > 1;
+   const hasNext = page < totalPages;
 
    const handleChangePage = (direction) => {
-      direction === "prev" 
-      ? params.set("page", parseInt(page) - 1) 
-      : params.set("page", parseInt(page) + 1);
+      const params = new URLSearchParams(searchParams);
+      params.delete('error');
+      params.delete('success');
+      params.set("page", direction === "prev" ? page - 1 : page + 1);
       replace(`${pathName}?${params.toString()}`);
    }
 
    return (
       <div className={Styles.container}>
         <button className={Styles.button} disabled={!hasPrev} onClick={()=>handleChangePage("prev")}>Previous</button>
+        <span>Page {Math.min(page, totalPages)} of {totalPages}</span>
         <button className={Styles.button} disabled={!hasNext} onClick={()=>handleChangePage("next")}>Next</button>
       </div>
    )

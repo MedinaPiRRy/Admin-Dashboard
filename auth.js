@@ -1,52 +1,42 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import bcrypt from "bcrypt";
 import { authConfig } from "@/authconfig";
 import { connectToDB } from "@/lib/utils";
 import { User } from "@/lib/models";
-import bcrypt from "bcrypt";
-import { isRedirectError } from "next/dist/client/components/redirect";
-import { redirect } from "next/dist/server/api-utils";
-
-const login = async (credentials) => {
-    try {
-      await connectToDB();
-      const user = await User.findOne({ username: credentials.username });
-  
-      if (!user) throw new Error("Wrong credentials!");
-  
-      const isPasswordCorrect = await bcrypt.compare(
-        credentials.password,
-        user.password
-      );
-  
-      if (!isPasswordCorrect) throw new Error("Wrong credentials!");
-  
-      return user;
-    } catch (err) {
-      console.log(err);
-      throw new Error("Failed to login!");
-    }
-  };
 
 export const { signIn, signOut, auth } = NextAuth({
     ...authConfig,
     providers: [
         CredentialsProvider({
-        async authorize(credentials) {
-            try {
-            const user = await login(credentials);
-            return user;
-            } catch (err) {
-            // error while re-directing
-            if (isRedirectError(err)) {
-                console.error(err);
-                throw err;
-              }
-            }
-        },
+            // Returning null means "wrong credentials". Unexpected errors (e.g. the
+            // database being unreachable) are thrown so the login form can show a
+            // generic error instead of claiming the password was wrong.
+            async authorize(credentials) {
+                const { username, password } = credentials ?? {};
+                if (typeof username !== "string" || typeof password !== "string" || !username || !password) {
+                    return null;
+                }
+
+                await connectToDB();
+                const user = await User.findOne({ username }).lean();
+                if (!user || user.isActive === false) return null;
+
+                const isPasswordCorrect = await bcrypt.compare(password, user.password);
+                if (!isPasswordCorrect) return null;
+
+                return {
+                    id: String(user._id),
+                    name: user.username,
+                    username: user.username,
+                    img: user.img,
+                    isAdmin: user.isAdmin,
+                };
+            },
         }),
     ],
     callbacks: {
+        ...authConfig.callbacks,
         async jwt({ token, user }) {
             if (user) {
                 token.username = user.username;
@@ -62,6 +52,6 @@ export const { signIn, signOut, auth } = NextAuth({
                 session.user.isAdmin = token.isAdmin;
             }
             return session;
-        }
-    }
+        },
+    },
 });

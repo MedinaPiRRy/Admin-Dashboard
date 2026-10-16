@@ -1,9 +1,6 @@
 'use client';
+import ErrorView from '@/(ui)/dashboard/common/errorView';
 
-const Error = () => {
-   return (
-      <div>Error</div>
-   )
-};
+const Error = ({ error, reset }) => <ErrorView error={error} reset={reset} />;
 
 export default Error;

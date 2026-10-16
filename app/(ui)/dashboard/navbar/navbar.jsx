@@ -1,35 +1,23 @@
 "use client"
 import Styles from './navbar.module.css';
 import { usePathname } from 'next/navigation';
-import {
-    MdNotifications,
-    MdOutlineChat,
-    MdPublic,
-  } from "react-icons/md";
 import NavBarSearch from './navbarSearch/navbarSearch';
-import { useRouter } from 'next/navigation';
 
 const Navbar = () => {
 
     const path = usePathname();
-    const pathName = path.split("/").pop();
+    const segments = path.split("/").filter(Boolean);
+    // /dashboard/users/add -> "users / add"; record ids (24-char hex) become "details"
+    const title = segments
+        .slice(1)
+        .map((segment) => (/^[0-9a-f]{24}$/i.test(segment) ? "details" : segment))
+        .join(" / ") || "dashboard";
 
-    const router = useRouter();
-        
-    const reRoute = () => {
-        router.refresh();
-    };
-    
     return (
         <div className={Styles.container}>
-            <button onClick={reRoute} className={Styles.title}>{pathName}</button>
+            <h1 className={Styles.title}>{title}</h1>
             <div className={Styles.menu}>
                 <NavBarSearch placeholder={"Search for page"} />
-                <div className={Styles.icons}>
-                    <MdOutlineChat size={50} color="#fff" className={Styles.icon} />
-                    <MdNotifications size={50} color="#fff" className={Styles.icon} />
-                    <MdPublic size={50} color="#fff" className={Styles.icon} />
-                </div>
             </div>
         </div>
     );

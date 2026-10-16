@@ -12,7 +12,7 @@
     padding: 50px;
     border-radius: 10px;
     width: 500px;
-    height: 500px;
+    min-height: 500px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -153,3 +153,19 @@
     inherits: true;
     initial-value: 0turn;
   }
+
+.error{
+    color: #ff6b6b;
+    text-align: center;
+}
+
+.hint{
+    text-align: center;
+    font-size: 13px;
+    color: var(--textSoft);
+}
+
+.form button:disabled{
+    opacity: 0.6;
+    cursor: wait;
+}
