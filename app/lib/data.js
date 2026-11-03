@@ -187,6 +187,34 @@ export const getMonthlyRevenue = async (months = 6) => {
     });
 };
 
+// Completed revenue per product and per category (all time)
+export const getRevenueBreakdown = async () => {
+    await connectToDB();
+    const rows = await Order.aggregate([
+        { $match: { status: 'done' } },
+        { $group: { _id: '$product', revenue: { $sum: '$amount' }, units: { $sum: '$quantity' }, orders: { $sum: 1 } } },
+        { $lookup: { from: 'products', localField: '_id', foreignField: 'title', as: 'match' } },
+        { $project: { revenue: 1, units: 1, orders: 1, category: { $ifNull: [{ $arrayElemAt: ['$match.category', 0] }, 'other'] } } },
+        { $sort: { revenue: -1 } },
+    ]);
+
+    const total = rows.reduce((sum, r) => sum + r.revenue, 0);
+    const byCategory = new Map();
+    for (const r of rows) {
+        const entry = byCategory.get(r.category) ?? { category: r.category, revenue: 0, units: 0 };
+        entry.revenue += r.revenue;
+        entry.units += r.units;
+        byCategory.set(r.category, entry);
+    }
+
+    return {
+        topProducts: rows.slice(0, 8).map((r) => ({ title: r._id, category: r.category, units: r.units, orders: r.orders, revenue: r.revenue })),
+        categories: [...byCategory.values()]
+            .sort((x, y) => y.revenue - x.revenue)
+            .map((c) => ({ ...c, share: total ? c.revenue / total : 0 })),
+    };
+};
+
 export const getRevenueSummary = async () => {
     await connectToDB();
     const rows = await Order.aggregate([{ $group: { _id: '$status', count: { $sum: 1 }, amount: { $sum: '$amount' } } }]);

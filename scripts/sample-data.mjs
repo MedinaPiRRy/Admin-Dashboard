@@ -40,6 +40,22 @@ export const users = [
   { username: "samuel_ito", email: "samuelito@example.com", isAdmin: false, isActive: false, phone: "9055550172", joined: 5 },
   { username: "priya_nair", email: "priyanair@example.com", isAdmin: false, isActive: true, address: "140 Yonge St, Toronto", joined: 4 },
   { username: "lucas_silva", email: "lucassilva@example.com", isAdmin: false, isActive: true, phone: "4165550188", joined: 2 },
+  { username: "ryan_taylor", email: "ryantaylor@example.com", isAdmin: false, isActive: true, phone: "4165550201", address: "18 Spadina Ave, Toronto", joined: 358 },
+  { username: "chloe_bennett", email: "chloebennett@example.com", isAdmin: false, isActive: true, joined: 349 },
+  { username: "victor_morales", email: "victormorales@example.com", isAdmin: false, isActive: true, phone: "6475550212", address: "52 Danforth Ave, Toronto", joined: 338 },
+  { username: "nina_petrova", email: "ninapetrova@example.com", isAdmin: false, isActive: true, joined: 322 },
+  { username: "tariq_aziz", email: "tariqaziz@example.com", isAdmin: false, isActive: false, phone: "9055550223", joined: 310 },
+  { username: "hannah_weber", email: "hannahweber@example.com", isAdmin: false, isActive: true, address: "300 Main St, Markham", joined: 297 },
+  { username: "diego_ramirez", email: "diegoramirez@example.com", isAdmin: false, isActive: true, phone: "4165550234", joined: 284 },
+  { username: "zoe_campbell", email: "zoecampbell@example.com", isAdmin: false, isActive: true, joined: 271 },
+  { username: "felix_andersson", email: "felixandersson@example.com", isAdmin: false, isActive: true, phone: "6475550245", address: "9 Bay St, Toronto", joined: 259 },
+  { username: "layla_haddad", email: "laylahaddad@example.com", isAdmin: false, isActive: true, joined: 244 },
+  { username: "oscar_nguyen", email: "oscarnguyen@example.com", isAdmin: false, isActive: true, phone: "9055550256", joined: 228 },
+  { username: "ruby_fitzgerald", email: "rubyfitzgerald@example.com", isAdmin: false, isActive: true, address: "71 Wellington St, Ottawa", joined: 214 },
+  { username: "anton_ivanov", email: "antonivanov@example.com", isAdmin: false, isActive: true, joined: 196 },
+  { username: "fatima_khan", email: "fatimakhan@example.com", isAdmin: false, isActive: true, phone: "6475550267", joined: 172 },
+  { username: "hugo_laurent", email: "hugolaurent@example.com", isAdmin: false, isActive: false, address: "14 Rue Sherbrooke, Montreal", joined: 152 },
+  { username: "ivy_chen", email: "ivychen@example.com", isAdmin: false, isActive: true, phone: "4165550278", joined: 133 },
 ];
 
 export const CATEGORY_STYLE = {
@@ -94,7 +110,7 @@ export const products = [
   { title: "The Pragmatic Programmer", price: 49.99, stock: 17, color: "Red", size: "R", category: "books", desc: "Your journey to mastery, 20th anniversary edition.", age: 70 },
 ];
 
-const SEED = 221; // chosen so the dashboard shows healthy week-over-week growth
+const SEED = 7; // chosen so the dashboard shows healthy week-over-week growth
 
 // Deterministic pseudo-random numbers, so every seed run produces the same orders.
 export const makeRandom = (seed = 2026) => {
@@ -105,29 +121,49 @@ export const makeRandom = (seed = 2026) => {
   };
 };
 
-// Roughly 300 orders over the last 180 days. Volume grows over time, only customers
-// who had already joined can order, and recent orders are more likely to be pending.
+// About a year of orders (~1,100): volume grows over time, peaks in November/December,
+// is busier on weekends, and only customers who had already joined can order.
+// Recent orders are more likely to be pending; older ones are almost all settled.
+const MONTH_FACTOR = [0.85, 0.8, 0.9, 0.95, 1.0, 0.95, 0.9, 0.95, 1.05, 1.1, 1.3, 1.5]; // Jan..Dec
+const WEEKDAY_FACTOR = [1.25, 0.95, 0.9, 0.9, 1.0, 1.15, 1.25]; // Sun..Sat
+
 export const buildOrders = (now = Date.now(), seed = SEED) => {
   const random = makeRandom(seed);
   const pick = (list) => list[Math.floor(random() * list.length)];
   const customers = users.filter((u) => !u.isAdmin && u.isActive);
-  const orders = [];
 
-  for (let daysAgo = 179; daysAgo >= 0; daysAgo--) {
-    const progress = (179 - daysAgo) / 179;
-    let count = Math.floor(0.5 + 1.8 * progress + random() * 1.4);
-    if (daysAgo < 7) count = Math.max(count, 2 + Math.floor(random() * 2)); // keep the last week busy
+  // Cheaper products sell more often; a random popularity factor adds variety.
+  const weighted = products.map((p) => ({ p, weight: (0.4 + random()) / (1 + p.price / 400) }));
+  const totalWeight = weighted.reduce((sum, w) => sum + w.weight, 0);
+  const pickProduct = () => {
+    let roll = random() * totalWeight;
+    for (const { p, weight } of weighted) {
+      roll -= weight;
+      if (roll <= 0) return p;
+    }
+    return products[0];
+  };
+
+  const orders = [];
+  const DAYS = 365;
+  for (let daysAgo = DAYS - 1; daysAgo >= 0; daysAgo--) {
+    const day = new Date(now - daysAgo * DAY);
+    const progress = (DAYS - 1 - daysAgo) / (DAYS - 1);
+    const expected = 2.5 * (0.5 + 1.2 * progress) * MONTH_FACTOR[day.getUTCMonth()] * WEEKDAY_FACTOR[day.getUTCDay()];
+    let count = Math.floor(expected + random());
+    if (daysAgo < 7) count = Math.max(count, 3 + Math.floor(random() * 3)); // keep the last week busy
 
     for (let i = 0; i < count; i++) {
       const eligible = customers.filter((c) => c.joined >= daysAgo);
       if (eligible.length === 0) continue;
-      const product = pick(products);
-      const quantity = random() < 0.7 ? 1 : 2 + Math.floor(random() * 2);
+      const product = pickProduct();
+      const sizeRoll = random();
+      const quantity = sizeRoll < 0.65 ? 1 : sizeRoll < 0.9 ? 2 : 3 + Math.floor(random() * 2);
       const roll = random();
       let status;
       if (daysAgo < 7) status = roll < 0.55 ? "done" : roll < 0.85 ? "pending" : "cancelled";
       else if (daysAgo < 14) status = roll < 0.8 ? "done" : roll < 0.9 ? "pending" : "cancelled";
-      else status = roll < 0.88 ? "done" : "cancelled";
+      else status = roll < 0.91 ? "done" : "cancelled";
 
       const createdAt = new Date(now - daysAgo * DAY - Math.floor(random() * 20 * 60 * 60 * 1000));
       orders.push({

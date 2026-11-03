@@ -104,3 +104,31 @@
 .filters a.activeFilter{
     background-color: #5d57c9;
 }
+
+.grid2{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 20px;
+}
+
+.up{
+    color: lime;
+}
+
+.down{
+    color: #ff6b6b;
+}
+
+.bar{
+    height: 6px;
+    background-color: #2e374a;
+    border-radius: 3px;
+    margin-bottom: 4px;
+    overflow: hidden;
+}
+
+.bar span{
+    display: block;
+    height: 100%;
+    background-color: #8884d8;
+}
