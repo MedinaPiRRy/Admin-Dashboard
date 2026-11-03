@@ -17,7 +17,7 @@ The `demo_recruiter` account is **read-only**: it can't be edited, deactivated o
 
 1. **Dashboard** - Three cards show total users, completed revenue and products, with real week-over-week change. *Hover a card* to flip it for more detail. Below are the latest transactions and a chart of orders and revenue for the last 7 days.
 2. **Users** (sidebar → Users)
-   - Type in the search box to filter by username or email (try `sara`); the list shows 5 per page across 7 pages, so use **Next / Previous**.
+   - Type in the search box to filter by username or email (try `sara`); the list shows 10 per page across 5 pages, so use **Next / Previous**.
    - Click **Add New**, fill in the form (password at least 8 characters, both password fields must match) and submit. Try submitting a mismatching password or an existing username to see the error messages.
    - Click **View** on the new user, change *Is Active?* to NO (or the role) and **Update**. A "Changes saved" message confirms it; the list now shows the user as Inactive.
    - Click **Delete** and confirm. (Deleting `demo_recruiter` is blocked on purpose.)
@@ -25,7 +25,7 @@ The `demo_recruiter` account is **read-only**: it can't be edited, deactivated o
    - Search by title, add a product, then **View** it and set its stock to `0` or a low number. Products under 20 units show a ⚠ warning.
    - Delete the test product.
 4. **Transactions** - Filter orders by *Pending / Done / Cancelled* and search by customer name.
-5. **Revenue** - Completed revenue per month as a chart and table, plus average order value.
+5. **Revenue** - Twelve months of completed revenue as a chart and a table with month-over-month change, plus top products and revenue by category.
 6. **Reports** - Inventory value by category, the low-stock list (the product you just edited appears here if its stock is low), and user counts.
 7. **Teams** - The administrators of the workspace; click a name to open their user record.
 8. **Settings / Help** - Your account details and a guide to every section.
@@ -36,7 +36,7 @@ The `demo_recruiter` account is **read-only**: it can't be edited, deactivated o
 
 1. `npm install`
 2. `cp .env.example .env.local` and set `DB_URL` (MongoDB URI incl. database name) and `AUTH_SECRET`.
-3. `npm run seed` - inserts 32 sample users, 37 products and about 285 orders. This **clears** the `users`, `products` and `orders` collections first.
+3. `npm run seed` - inserts 48 sample users, 37 products and about 1,040 orders. This **clears** the `users`, `products` and `orders` collections first.
 4. `npm run dev` and open http://localhost:3000.
 
 ## 4. Deploying to Vercel

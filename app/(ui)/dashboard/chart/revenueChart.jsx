@@ -8,7 +8,7 @@ const RevenueChart = ({ data = [] }) => {
 
    return (
       <div className={Styles.container}>
-         <h2 className={Styles.title}>Completed revenue - last 6 months</h2>
+         <h2 className={Styles.title}>Completed revenue - last {data.length} months</h2>
          {hasData ? (
             <ResponsiveContainer width="100%" height="90%">
                <BarChart data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>

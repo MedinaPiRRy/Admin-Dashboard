@@ -1,4 +1,4 @@
-export const ITEMS_PER_PAGE = 5;
+export const ITEMS_PER_PAGE = 10;
 export const LOW_STOCK_THRESHOLD = 20;
 
 // The seeded recruiter account is read-only so the public demo can't be locked out.
